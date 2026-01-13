@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timetable | Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { theme: { extend: { colors: { primary: '#003366', accent: '#FFCC00', danger: '#d9534f' } } } }
+    </script>
+</head>
+<body class="bg-gray-50 text-gray-800 pb-20">
+    <nav class="bg-gray-900 text-white p-4 flex gap-6 overflow-x-auto whitespace-nowrap sticky top-0 z-50 shadow-md">
+        <a href="index.html" class="text-gray-400 hover:text-white transition">Dashboard</a>
+        <a href="schedule.html" class="bg-primary px-3 py-1 rounded font-medium">Timetable</a>
+        <a href="broadcast.html" class="text-gray-400 hover:text-white transition">Broadcast</a>
+        <a href="resources.html" class="text-gray-400 hover:text-white transition">Resources</a>
+        <a href="users.html" class="text-gray-400 hover:text-white transition">Students</a>
+    </nav>
+
+    <div class="max-w-4xl mx-auto p-4">
+        <h3 class="text-xl font-bold mt-4 mb-2">Edit Timetable</h3>
+        <p class="text-gray-500 text-sm mb-6">Select a day to manage classes.</p>
+
+        <div class="flex gap-2 mb-8 overflow-x-auto pb-2">
+            <button class="bg-accent text-black font-bold px-6 py-2 rounded-lg shadow-sm whitespace-nowrap">Mon</button>
+            <button class="bg-gray-200 text-gray-500 font-medium px-6 py-2 rounded-lg whitespace-nowrap hover:bg-gray-300">Tue</button>
+            <button class="bg-gray-200 text-gray-500 font-medium px-6 py-2 rounded-lg whitespace-nowrap hover:bg-gray-300">Wed</button>
+            <button class="bg-gray-200 text-gray-500 font-medium px-6 py-2 rounded-lg whitespace-nowrap hover:bg-gray-300">Thu</button>
+            <button class="bg-gray-200 text-gray-500 font-medium px-6 py-2 rounded-lg whitespace-nowrap hover:bg-gray-300">Fri</button>
+        </div>
+
+        <h4 class="text-primary font-bold mb-4">Monday's Classes</h4>
+
+        <div class="bg-white p-4 rounded-xl shadow-sm mb-4">
+            <div class="flex justify-between items-start mb-4">
+                <div>
+                    <span class="text-primary font-bold text-lg">08:00 AM - 10:00 AM</span>
+                    <h4 class="font-bold text-gray-800">Calculus II (MATH 302)</h4>
+                    <small class="text-gray-500">📍 Great Hall • 👨‍🏫 Dr. K. Osei</small>
+                </div>
+                <span class="bg-blue-100 text-primary text-xs font-bold px-2 py-1 rounded uppercase">Active</span>
+            </div>
+            <div class="flex gap-3">
+                <button class="flex-1 bg-gray-100 text-gray-700 font-bold py-2 rounded-lg hover:bg-gray-200">Edit Details</button>
+                <button class="flex-1 bg-danger text-white font-bold py-2 rounded-lg hover:bg-red-700">Cancel Class</button>
+            </div>
+        </div>
+
+        <div class="bg-white p-4 rounded-xl shadow-sm mb-4">
+            <div class="flex justify-between items-start mb-4">
+                <div>
+                    <span class="text-primary font-bold text-lg">10:30 AM - 12:30 PM</span>
+                    <h4 class="font-bold text-gray-800">Software Engineering</h4>
+                    <small class="text-gray-500">📍 Lab 3 • 👨‍🏫 Mr. S. Jenkins</small>
+                </div>
+                <span class="bg-blue-100 text-primary text-xs font-bold px-2 py-1 rounded uppercase">Active</span>
+            </div>
+            <div class="flex gap-3">
+                <button class="flex-1 bg-gray-100 text-gray-700 font-bold py-2 rounded-lg hover:bg-gray-200">Edit Details</button>
+                <button class="flex-1 bg-danger text-white font-bold py-2 rounded-lg hover:bg-red-700">Cancel Class</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

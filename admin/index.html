@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rep Dashboard | GCTU</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: { colors: { 'gctu-blue': '#002147', 'gctu-gold': '#FFD700' }, fontFamily: { sans: ['"Open Sans"', 'sans-serif'] } }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 font-sans">
+
+    <nav class="bg-gctu-blue text-white sticky top-0 z-50 shadow-lg border-b-4 border-gctu-gold">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center gap-3">
+                    <div class="font-bold text-xl tracking-wider">GCTU <span class="text-gctu-gold text-sm font-normal">ADMIN</span></div>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="index.html" class="bg-black bg-opacity-20 px-3 py-2 rounded text-sm font-medium text-gctu-gold">Dashboard</a>
+                    <a href="schedule.html" class="hover:bg-white hover:bg-opacity-10 px-3 py-2 rounded text-sm font-medium transition">Timetable</a>
+                    <a href="broadcast.html" class="hover:bg-white hover:bg-opacity-10 px-3 py-2 rounded text-sm font-medium transition">Broadcast</a>
+                    <a href="users.html" class="hover:bg-white hover:bg-opacity-10 px-3 py-2 rounded text-sm font-medium transition">Students</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-5xl mx-auto p-6">
+        
+        <header class="flex justify-between items-center mb-8">
+            <div>
+                <h2 class="text-2xl font-bold text-gray-800">Course Rep Dashboard</h2>
+                <p class="text-gray-500">Welcome back. Manage your class updates here.</p>
+            </div>
+            <a href="../index.html" class="text-red-600 font-bold text-sm border border-red-200 px-4 py-2 rounded hover:bg-red-50">Log Out</a>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="bg-white p-6 rounded shadow border-t-4 border-gctu-blue">
+                <div class="text-gray-500 text-xs font-bold uppercase">Total Students</div>
+                <div class="text-3xl font-bold text-gray-800 mt-1">142</div>
+            </div>
+            <div class="bg-white p-6 rounded shadow border-t-4 border-gctu-gold">
+                <div class="text-gray-500 text-xs font-bold uppercase">Active Classes Today</div>
+                <div class="text-3xl font-bold text-gray-800 mt-1">2</div>
+            </div>
+            <div class="bg-white p-6 rounded shadow border-t-4 border-green-500">
+                <div class="text-gray-500 text-xs font-bold uppercase">System Status</div>
+                <div class="text-3xl font-bold text-green-600 mt-1">Online</div>
+            </div>
+        </div>
+
+        <h3 class="text-sm font-bold text-gray-400 uppercase tracking-wide mb-4">Quick Management</h3>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <a href="broadcast.html" class="bg-white hover:bg-gray-50 border border-gray-200 p-6 rounded text-center transition group">
+                <div class="text-3xl mb-2 group-hover:scale-110 transition">📢</div>
+                <div class="font-bold text-gctu-blue">Post Alert</div>
+            </a>
+            <a href="schedule.html" class="bg-white hover:bg-gray-50 border border-gray-200 p-6 rounded text-center transition group">
+                <div class="text-3xl mb-2 group-hover:scale-110 transition">📝</div>
+                <div class="font-bold text-gctu-blue">Edit Schedule</div>
+            </a>
+            <a href="users.html" class="bg-white hover:bg-gray-50 border border-gray-200 p-6 rounded text-center transition group">
+                <div class="text-3xl mb-2 group-hover:scale-110 transition">👥</div>
+                <div class="font-bold text-gctu-blue">Manage Students</div>
+            </a>
+            <a href="resources.html" class="bg-white hover:bg-gray-50 border border-gray-200 p-6 rounded text-center transition group">
+                <div class="text-3xl mb-2 group-hover:scale-110 transition">📂</div>
+                <div class="font-bold text-gctu-blue">Upload Files</div>
+            </a>
+        </div>
+
+    </div>
+</body>
+</html>

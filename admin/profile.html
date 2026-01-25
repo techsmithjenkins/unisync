@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile | Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { 'gctu-blue': '#002147', 'gctu-gold': '#FFD700' },
+                    fontFamily: { sans: ['"Inter"', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-gray-50 text-gray-800 font-sans min-h-screen flex flex-col">
+
+    <script type="module">
+        import { loadAdminHeader } from './js/components/header.js';
+        loadAdminHeader('profile');
+    </script>
+
+    <main class="flex-1 max-w-5xl mx-auto w-full p-4 md:p-8">
+
+        <div class="relative mb-16">
+            <div
+                class="h-48 w-full bg-gradient-to-r from-gctu-blue to-blue-900 rounded-2xl shadow-lg relative overflow-hidden">
+                <div
+                    class="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]">
+                </div>
+                <div
+                    class="absolute bottom-4 right-6 text-white text-opacity-20 text-4xl font-bold tracking-widest pointer-events-none">
+                    ADMINISTRATOR</div>
+            </div>
+
+            <div class="absolute -bottom-10 left-6 md:left-12 flex items-end gap-6">
+                <div class="relative group">
+                    <img id="heroAvatar" src="../assets/images/male.jpg" alt="Avatar"
+                        class="w-32 h-32 md:w-40 md:h-40 rounded-full border-[6px] border-white shadow-xl bg-white object-cover">
+                    <div class="absolute bottom-2 right-2 bg-green-500 w-5 h-5 rounded-full border-4 border-white"
+                        title="Online"></div>
+                </div>
+
+                <div class="pb-1 mb-2">
+                    <h1 class="text-3xl md:text-4xl font-bold text-gctu-gold tracking-tight" id="heroName">Loading...
+                    </h1>
+                    <span
+                        class="inline-block bg-blue-100 text-gctu-blue text-xs font-bold px-3 py-1 rounded-full border border-blue-200 mt-1">
+                        Verified Admin
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-20 md:mt-16">
+
+            <div class="lg:col-span-2 space-y-8">
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
+                    <h3
+                        class="text-lg font-bold text-gctu-blue mb-6 pb-2 border-b border-gray-100 flex items-center gap-2">
+                        <span>✏️</span> Edit Profile
+                    </h3>
+
+                    <form id="profileForm" class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                            <div class="md:col-span-2">
+                                <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Full Name</label>
+                                <input type="text" id="fullName" placeholder="e.g. Dr. Jurist Jenkins"
+                                    class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-gctu-blue outline-none transition font-medium">
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Gender (Updates
+                                    Avatar)</label>
+                                <select id="gender"
+                                    class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-gctu-blue outline-none bg-white cursor-pointer">
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Phone Number</label>
+                                <input type="text" id="phone" placeholder="+233 XX XXX XXXX"
+                                    class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-gctu-blue outline-none transition">
+                            </div>
+
+                            <div class="md:col-span-2">
+                                <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Email
+                                    Address</label>
+                                <input type="text" id="adminEmail" disabled
+                                    class="w-full bg-gray-100 border border-gray-200 text-gray-500 rounded-lg p-3 cursor-not-allowed">
+                            </div>
+                        </div>
+
+                        <div class="flex justify-end pt-4 border-t border-gray-100 mt-6">
+                            <button type="submit" id="saveProfileBtn"
+                                class="bg-gctu-blue text-white px-8 py-3 rounded-lg text-sm font-bold hover:bg-blue-900 transition shadow-lg shadow-blue-900/20 flex items-center gap-2">
+                                <span>💾 Save Changes</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-8 sticky top-24">
+                    <h3
+                        class="text-lg font-bold text-gray-800 mb-6 pb-2 border-b border-gray-100 flex items-center gap-2">
+                        <span>🔒</span> Password
+                    </h3>
+
+                    <form id="passwordForm" class="space-y-5">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">New Password</label>
+                            <input type="password" id="newPassword" placeholder="Min. 6 characters"
+                                class="w-full border border-gray-300 rounded-lg p-3 text-sm focus:ring-2 focus:ring-gctu-blue outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Confirm Password</label>
+                            <input type="password" id="confirmPassword" placeholder="Re-enter to confirm"
+                                class="w-full border border-gray-300 rounded-lg p-3 text-sm focus:ring-2 focus:ring-gctu-blue outline-none">
+                        </div>
+
+                        <button type="submit" id="updatePassBtn"
+                            class="w-full bg-white border border-gray-300 text-gray-700 py-2.5 rounded-lg text-sm font-bold hover:bg-gray-50 transition hover:text-gctu-blue hover:border-gctu-blue">
+                            Update Password
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <script type="module" src="./js/modules/profile_mgr.js"></script>
+
+    <script>
+        const nameInput = document.getElementById('fullName');
+        const heroName = document.getElementById('heroName');
+        const genderSelect = document.getElementById('gender');
+        const avatarImg = document.getElementById('heroAvatar');
+
+        // Echo Name Instantly
+        nameInput.addEventListener('input', (e) => {
+            heroName.innerText = e.target.value || 'Welcome, Admin';
+        });
+
+        // Update Avatar Instantly
+        genderSelect.addEventListener('change', (e) => {
+            updateAvatarDisplay(e.target.value);
+        });
+
+        // Global function called by profile_mgr.js on load
+        window.updateAvatarDisplay = function(gender) {
+            if (gender === 'female') {
+                avatarImg.src = '../assets/images/female.jpg';
+            } else {
+                // Default to male for 'male' or 'other'
+                avatarImg.src = '../assets/images/male.jpg';
+            }
+        }
+    </script>
+</body>
+</html>

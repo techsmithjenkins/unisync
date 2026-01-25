@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Broadcast | Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { theme: { extend: { colors: { 'gctu-blue': '#002147', 'gctu-gold': '#FFD700' } } } }
+    </script>
+</head>
+<body class="bg-blue-50 font-sans h-screen flex flex-col overflow-hidden">
+
+    <script type="module">
+        import { loadAdminHeader } from './js/components/header.js';
+        loadAdminHeader('broadcast'); 
+    </script>
+
+    <div class="flex-1 w-full max-w-4xl mx-auto p-4 overflow-y-auto pb-20">
+        
+        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+            <div class="flex items-center gap-3 mb-6 border-b border-gray-100 pb-4">
+                <div class="p-3 bg-blue-50 text-gctu-blue rounded-full text-xl">📢</div>
+                <div>
+                    <h3 class="text-xl font-bold text-gctu-blue">Send Broadcast</h3>
+                    <p class="text-xs text-gray-500">Send notifications to all student dashboards instantly.</p>
+                </div>
+            </div>
+            
+            <form id="broadcastForm" class="space-y-5">
+                <div>
+                    <label class="block font-bold text-gray-700 mb-1 text-sm uppercase tracking-wide">Title</label>
+                    <input id="broadcastTitle" required type="text" placeholder="e.g. Lecture Cancelled / Exam Reminder" 
+                        class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-gctu-blue focus:outline-none transition">
+                </div>
+
+                <div>
+                    <label class="block font-bold text-gray-700 mb-1 text-sm uppercase tracking-wide">Message</label>
+                    <textarea id="broadcastBody" required rows="5" placeholder="Type your full message here..." 
+                        class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-gctu-blue focus:outline-none transition"></textarea>
+                </div>
+
+                <div>
+                    <label class="block font-bold text-gray-700 mb-1 text-sm uppercase tracking-wide">Priority Level</label>
+                    <div class="grid grid-cols-2 gap-4">
+                        <label class="cursor-pointer group">
+                            <input type="radio" name="priority" value="info" class="peer sr-only" checked>
+                            <div class="p-4 rounded-lg border-2 border-gray-200 peer-checked:border-blue-500 peer-checked:bg-blue-50 group-hover:bg-gray-50 transition text-center">
+                                <span class="text-2xl block mb-1">🔵</span>
+                                <span class="font-bold text-gray-700 block text-sm">General Info</span>
+                            </div>
+                        </label>
+                        
+                        <label class="cursor-pointer group">
+                            <input type="radio" name="priority" value="critical" class="peer sr-only">
+                            <div class="p-4 rounded-lg border-2 border-gray-200 peer-checked:border-red-500 peer-checked:bg-red-50 group-hover:bg-gray-50 transition text-center">
+                                <span class="text-2xl block mb-1">🔴</span>
+                                <span class="font-bold text-gray-700 block text-sm">Critical Alert</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <button type="submit" id="sendBtn" class="w-full bg-gctu-blue text-white font-bold py-4 rounded-lg hover:bg-opacity-90 transition shadow-lg mt-4 flex justify-center items-center gap-2">
+                    <span>🚀 Send Broadcast</span>
+                </button>
+            </form>
+        </div>
+
+        <div class="mt-6">
+            <h4 class="text-sm font-bold text-gray-400 uppercase mb-3 px-2">Recent Broadcasts</h4>
+            <div id="historyList" class="space-y-3">
+                <p class="text-gray-400 text-center text-sm italic py-4">Loading history...</p>
+            </div>
+        </div>
+
+    </div>
+
+    <script type="module" src="./js/modules/broadcaster.js"></script>
+</body>
+</html>

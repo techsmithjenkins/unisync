@@ -1,0 +1,94 @@
+/* --- ADMIN SPECIFIC STYLES --- */
+
+/* Dashboard Grid (The 4 big buttons) */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 columns on mobile */
+    gap: 15px;
+    margin-bottom: 2rem;
+}
+
+@media (min-width: 768px) {
+    .dashboard-grid {
+        grid-template-columns: repeat(4, 1fr); /* 4 columns on desktop */
+    }
+}
+
+.quick-action-card {
+    background: var(--white);
+    padding: 1.5rem 1rem;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: var(--card-shadow);
+    text-decoration: none;
+    color: var(--text-dark);
+    border: 2px solid transparent;
+    transition: all 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.quick-action-card:hover {
+    border-color: var(--primary);
+    transform: translateY(-3px);
+    background-color: #f8fbff;
+}
+
+.icon-large {
+    font-size: 2.5rem;
+    margin-bottom: 0.8rem;
+    display: block;
+}
+
+/* Admin List Items (Rows with buttons) */
+.admin-list-item {
+    background: var(--white);
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #eee;
+}
+
+.btn-cancel {
+    background-color: var(--danger);
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-edit {
+    background-color: #e0e0e0;
+    color: var(--text-dark);
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+/* File Upload Area */
+.upload-zone {
+    border: 2px dashed #cbd5e1;
+    border-radius: 8px;
+    padding: 2rem;
+    text-align: center;
+    background: #f8fafc;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.upload-zone:hover {
+    background: #f1f5f9;
+    border-color: var(--primary);
+}

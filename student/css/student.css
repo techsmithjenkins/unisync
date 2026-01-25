@@ -1,0 +1,87 @@
+/* --- STUDENT SPECIFIC STYLES --- */
+
+/* The Timeline Card */
+.class-card {
+    background: var(--white);
+    padding: 1.2rem;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: flex-start;
+    box-shadow: var(--card-shadow);
+    border-left: 6px solid transparent; /* The colored indicator strip */
+    transition: transform 0.2s ease;
+}
+
+.class-card:active {
+    transform: scale(0.98); /* Subtle tap effect on mobile */
+}
+
+/* Status Colors */
+.class-card.active {
+    border-left-color: var(--primary);
+}
+
+.class-card.cancelled {
+    border-left-color: var(--danger);
+    background-color: #fff5f5; /* Light red background */
+}
+
+.class-card.rescheduled {
+    border-left-color: var(--accent);
+}
+
+/* Internal Layout */
+.time-column {
+    width: 85px;
+    flex-shrink: 0;
+    text-align: left;
+}
+
+.time-start {
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: var(--text-dark);
+    display: block;
+}
+
+.time-end {
+    font-size: 0.85rem;
+    color: var(--text-light);
+}
+
+.details-column {
+    flex-grow: 1;
+    padding-left: 15px;
+    border-left: 2px solid #f0f0f0;
+}
+
+/* Typography */
+.class-title {
+    margin: 0;
+    font-size: 1rem;
+    color: var(--primary);
+    font-weight: 700;
+}
+
+.class-venue {
+    margin: 4px 0 0;
+    font-size: 0.9rem;
+    color: var(--text-light);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.status-badge {
+    display: inline-block;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    font-weight: bold;
+    padding: 3px 8px;
+    border-radius: 4px;
+    margin-top: 8px;
+}
+
+.badge-cancelled { background: #ffebee; color: var(--danger); }
+.badge-active { background: #e3f2fd; color: var(--primary); }

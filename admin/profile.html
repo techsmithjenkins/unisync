@@ -17,9 +17,42 @@
             }
         }
     </script>
+
+    <style>
+        /* 1. Hide the default Eye in Edge/Internet Explorer */
+        input::-ms-reveal,
+        input::-ms-clear {
+            display: none;
+        }
+
+        /* 2. Hide the default Eye in Chrome/Safari/Edge-Chromium */
+        input::-webkit-text-security-disc {}
+
+        /* This is the main one for Chrome */
+        input[type="password"]::-webkit-calendar-picker-indicator,
+        input[type="password"]::-webkit-inner-spin-button,
+        input[type="password"]::-webkit-clear-button {
+            display: none !important;
+            -webkit-appearance: none;
+        }
+
+        /* Specific selector for the password toggle in WebKit browsers */
+        input[type="password"]::-webkit-credentials-auto-fill-button {
+            visibility: hidden;
+            pointer-events: none;
+            position: absolute;
+            right: 0;
+        }
+
+        /* The most common modern selector to kill the native eye */
+        input[type="password"]::-webkit-password-toggle-button {
+            -webkit-appearance: none;
+            display: none !important;
+        }
+    </style>
 </head>
 
-<body class="bg-gray-50 text-gray-800 font-sans min-h-screen flex flex-col">
+<body class="bg-gradient-to-r from-gctu-blue/90 to-blue-400 text-gray-800 font-sans min-h-screen flex flex-col">
 
     <script type="module">
         import { loadAdminHeader } from './js/components/header.js';
@@ -61,7 +94,7 @@
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-20 md:mt-16">
 
             <div class="lg:col-span-2 space-y-8">
-                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
+                <div class="bg-gray-100 rounded-xl shadow-sm border border-gray-200 p-8">
                     <h3
                         class="text-lg font-bold text-gctu-blue mb-6 pb-2 border-b border-gray-100 flex items-center gap-2">
                         <span>✏️</span> Edit Profile
@@ -110,32 +143,98 @@
                 </div>
             </div>
 
+
+
             <div class="lg:col-span-1">
                 <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-8 sticky top-24">
                     <h3
                         class="text-lg font-bold text-gray-800 mb-6 pb-2 border-b border-gray-100 flex items-center gap-2">
-                        <span>🔒</span> Password
+                        <span>🔒</span> Password Security
                     </h3>
 
-                    <form id="passwordForm" class="space-y-5">
+                    <form id="passwordForm" class="space-y-5" autocomplete="off">
+                        <input type="text" style="display:none">
+                        <input type="password" style="display:none">
+
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Current Password</label>
+                            <div class="relative">
+                                <input type="password" id="currentPassword" placeholder="Required for verification"
+                                    autocomplete="new-password"
+                                    class="w-full bg-white border border-gray-300 rounded-lg p-3 pr-10 text-sm focus:ring-2 focus:ring-red-200 focus:border-red-400 outline-none transition">
+
+                                <button type="button" onclick="toggleVisibility('currentPassword', this)"
+                                    class="absolute inset-y-0 right-0 px-3 flex items-center text-gray-400 hover:text-gctu-blue transition cursor-pointer z-10">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <hr class="border-gray-100 my-2">
+
                         <div>
                             <label class="block text-xs font-bold text-gray-500 uppercase mb-1">New Password</label>
-                            <input type="password" id="newPassword" placeholder="Min. 6 characters"
-                                class="w-full border border-gray-300 rounded-lg p-3 text-sm focus:ring-2 focus:ring-gctu-blue outline-none">
+                            <div class="relative">
+                                <input type="password" id="newPassword" placeholder="Strong password required"
+                                    autocomplete="new-password"
+                                    class="w-full border border-gray-300 rounded-lg p-3 pr-10 text-sm focus:ring-2 focus:ring-gctu-blue outline-none transition">
+
+                                <button type="button" onclick="toggleVisibility('newPassword', this)"
+                                    class="absolute inset-y-0 right-0 px-3 flex items-center text-gray-400 hover:text-gctu-blue transition cursor-pointer z-10">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    </svg>
+                                </button>
+                            </div>
                         </div>
+
                         <div>
-                            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Confirm Password</label>
-                            <input type="password" id="confirmPassword" placeholder="Re-enter to confirm"
-                                class="w-full border border-gray-300 rounded-lg p-3 text-sm focus:ring-2 focus:ring-gctu-blue outline-none">
+                            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Confirm New
+                                Password</label>
+                            <div class="relative">
+                                <input type="password" id="confirmPassword" placeholder="Re-enter to confirm"
+                                    autocomplete="new-password"
+                                    class="w-full border border-gray-300 rounded-lg p-3 pr-10 text-sm focus:ring-2 focus:ring-gctu-blue outline-none transition">
+
+                                <button type="button" onclick="toggleVisibility('confirmPassword', this)"
+                                    class="absolute inset-y-0 right-0 px-3 flex items-center text-gray-400 hover:text-gctu-blue transition cursor-pointer z-10">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="text-[10px] text-gray-400 space-y-1 pl-1 font-medium select-none">
+                            <p id="req-len">🔴 Min 8 characters</p>
+                            <p id="req-up">🔴 At least 1 Uppercase (A-Z)</p>
+                            <p id="req-num">🔴 At least 1 Number (0-9)</p>
+                            <p id="req-sym">🔴 At least 1 Symbol (@$!%*?&)</p>
                         </div>
 
                         <button type="submit" id="updatePassBtn"
-                            class="w-full bg-white border border-gray-300 text-gray-700 py-2.5 rounded-lg text-sm font-bold hover:bg-gray-50 transition hover:text-gctu-blue hover:border-gctu-blue">
+                            class="w-full bg-gctu-blue text-white py-3 rounded-lg text-sm font-bold hover:bg-blue-900 transition shadow-lg mt-2">
                             Update Password
                         </button>
                     </form>
                 </div>
             </div>
+
+
 
         </div>
 
@@ -160,7 +259,7 @@
         });
 
         // Global function called by profile_mgr.js on load
-        window.updateAvatarDisplay = function(gender) {
+        window.updateAvatarDisplay = function (gender) {
             if (gender === 'female') {
                 avatarImg.src = '../assets/images/female.jpg';
             } else {
@@ -168,6 +267,39 @@
                 avatarImg.src = '../assets/images/male.jpg';
             }
         }
+
+        // Toggle Password Visibility
+        window.toggleVisibility = function (fieldId, btn) {
+            const input = document.getElementById(fieldId);
+            const iconSvg = btn.querySelector('svg');
+
+            if (input.type === 'password') {
+                // 1. SHOW PASSWORD
+                input.type = 'text';
+
+                // Change Icon to "Eye Slash" (Meaning: Click to Hide)
+                iconSvg.innerHTML = `
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88" />
+            `;
+                // Optional: Change color to indicate "Warning/Visible"
+                btn.classList.add('text-gctu-blue');
+                btn.classList.remove('text-gray-400');
+
+            } else {
+                // 2. HIDE PASSWORD
+                input.type = 'password';
+
+                // Change Icon back to "Eye" (Meaning: Click to View)
+                iconSvg.innerHTML = `
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            `;
+                // Reset color
+                btn.classList.remove('text-gctu-blue');
+                btn.classList.add('text-gray-400');
+            }
+        };
     </script>
 </body>
+
 </html>

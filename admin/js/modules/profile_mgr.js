@@ -86,48 +86,97 @@ function setupProfileForm() {
     });
 }
 
-// --- 3. CHANGE PASSWORD ---
+// --- 3. CHANGE PASSWORD (STRICT SECURITY) ---
 function setupPasswordForm() {
     const form = document.getElementById('passwordForm');
     const btn = document.getElementById('updatePassBtn');
+
+    // Live Validation Visuals (Attach listener)
+    const newPassInput = document.getElementById('newPassword');
+    if(newPassInput) newPassInput.addEventListener('input', validatePasswordStrength);
 
     if (!form || !btn) return;
 
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
         
+        const currentPass = document.getElementById('currentPassword').value;
         const newPass = document.getElementById('newPassword').value;
         const confirmPass = document.getElementById('confirmPassword').value;
+        const email = document.getElementById('adminEmail').value; 
 
-        // Validation
-        if (newPass.length < 6) {
-            return Modal.confirm("Weak Password", "Password must be at least 6 characters.", "OK", "red");
-        }
-        if (newPass !== confirmPass) {
-            return Modal.confirm("Mismatch", "Passwords do not match.", "OK", "red");
+        // A. Basic Client Checks
+        if (!currentPass) return Modal.confirm("Action Required", "Please enter your current password.", "OK", "red");
+        if (newPass !== confirmPass) return Modal.confirm("Mismatch", "New passwords do not match.", "OK", "red");
+        
+        // B. Strict Regex Eligibility Check
+        // At least 8 chars, 1 Upper, 1 Number, 1 Special Char
+        const strongRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        if (!strongRegex.test(newPass)) {
+            return Modal.confirm("Security Policy", "Password is too weak. Please meet all requirements listed.", "OK", "red");
         }
 
-        // UI Loading State
-        const originalText = btn.innerText;
-        btn.innerText = "Updating...";
+        // UI Loading
+        const originalText = btn.innerHTML;
+        btn.innerHTML = `<span>Verifying...</span>`;
         btn.disabled = true;
 
         try {
-            const { error } = await supabase.auth.updateUser({ 
+            // C. RE-AUTHENTICATION (Silent Check)
+            // We verify the "Old Password" by trying to sign in with it.
+            const { error: verifyError } = await supabase.auth.signInWithPassword({
+                email: email,
+                password: currentPass
+            });
+
+            if (verifyError) {
+                // GENERIC ERROR - Do not reveal it was specifically the old password
+                throw new Error("Security verification failed. Please check your credentials.");
+            }
+
+            // D. UPDATE PASSWORD
+            btn.innerHTML = `<span>Updating...</span>`;
+            const { error: updateError } = await supabase.auth.updateUser({ 
                 password: newPass 
             });
 
-            if (error) throw error;
+            if (updateError) throw updateError;
 
-            await Modal.confirm("Success", "Password updated! Please login again.", "OK", "green");
-            form.reset();
+            // E. FORCE LOGOUT (Fresh Start)
+            await Modal.confirm("Success", "Password updated securely. You must now log in with your new password.", "Log Out", "green");
+            
+            await supabase.auth.signOut();
+            window.location.href = '../index.html';
 
         } catch (err) {
             console.error(err);
-            await Modal.confirm("Error", err.message, "OK", "red");
+            // Show generic error message to user
+            const displayMsg = err.message || "An unexpected error occurred.";
+            await Modal.confirm("Update Failed", displayMsg, "OK", "red");
         } finally {
-            btn.innerText = originalText;
+            btn.innerHTML = originalText;
             btn.disabled = false;
         }
     });
+}
+
+// Helper: Visual Strength Meter
+function validatePasswordStrength(e) {
+    const val = e.target.value;
+    updateStatus('req-len', val.length >= 8);
+    updateStatus('req-up', /[A-Z]/.test(val));
+    updateStatus('req-num', /\d/.test(val));
+    updateStatus('req-sym', /[@$!%*?&]/.test(val));
+}
+
+function updateStatus(id, isValid) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (isValid) {
+        el.innerText = el.innerText.replace('🔴', '🟢');
+        el.classList.replace('text-gray-400', 'text-green-600');
+    } else {
+        el.innerText = el.innerText.replace('🟢', '🔴');
+        el.classList.replace('text-green-600', 'text-gray-400');
+    }
 }

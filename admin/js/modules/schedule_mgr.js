@@ -39,28 +39,28 @@ export const scheduleManager = {
 
         // Render Cards with "Edit" and "Delete" buttons
         container.innerHTML = classes.map(cls => `
-            <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-gctu-blue flex justify-between items-center group hover:shadow-md transition">
-                <div>
-                    <div class="flex items-center gap-2 mb-1">
-                        <h3 class="font-bold text-lg text-gctu-blue">${cls.course_name}</h3>
+            <div class="bg-gray-50 p-3 sm:p-4 rounded-lg shadow-sm border-l-4 border-gctu-blue border-b border-t border-r flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4 group hover:shadow-md transition mb-3">
+                <div class="flex-1 w-full">
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center gap-2 mb-2">
+                        <h3 class="font-bold text-base sm:text-lg text-gctu-blue">${cls.course_name}</h3>
                         <span class="text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded border border-blue-200 font-mono">${cls.course_code}</span>
                     </div>
-                    <p class="text-sm text-gray-600">
+                    <p class="text-xs sm:text-sm text-gray-600 mb-2">
                         📍 ${cls.venue} &nbsp;|&nbsp; 👨‍🏫 ${cls.lecturer_name || 'TBA'}
                     </p>
-                    <span class="text-xs font-bold text-gctu-gold bg-gray-900 px-2 py-1 rounded mt-1 inline-block">
+                    <span class="text-xs font-bold text-gctu-gold bg-gray-900 px-2 py-1 rounded inline-block">
                         ${cls.start_time.slice(0,5)} - ${cls.end_time.slice(0,5)}
                     </span>
                 </div>
                 
-                <div class="flex gap-2 opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity">
-                    <button class="edit-btn text-blue-600 hover:bg-blue-50 p-2 rounded border border-blue-200" 
-                        data-id="${cls.id}" data-json='${JSON.stringify(cls)}'>
-                        ✏️
+                <div class="flex gap-2 w-full sm:w-auto opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity">
+                    <button class="edit-btn flex-1 sm:flex-none text-blue-600 hover:bg-blue-50 p-2 rounded border border-blue-200 transition text-sm sm:text-base" 
+                        data-id="${cls.id}" data-json='${JSON.stringify(cls)}' title="Edit class">
+                        ✏️ Edit
                     </button>
-                    <button class="delete-btn text-red-600 hover:bg-red-50 p-2 rounded border border-red-200" 
-                        data-id="${cls.id}">
-                        🗑️
+                    <button class="delete-btn flex-1 sm:flex-none text-red-600 hover:bg-red-50 p-2 rounded border border-red-200 transition text-sm sm:text-base" 
+                        data-id="${cls.id}" title="Delete class">
+                        🗑️ Delete
                     </button>
                 </div>
             </div>

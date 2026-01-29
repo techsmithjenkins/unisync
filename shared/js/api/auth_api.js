@@ -1,49 +1,66 @@
-// shared/js/api/auth_api.js
 import supabase from '../supabase_client.js';
 
 export const authAPI = {
     
-    // 1. Existing Login Function
+    /**
+     * 1. Unified Login Function
+     * Handles both Students (Index Number) and Admins (Email)
+     * Now strictly uses Supabase Auth for security.
+     */
     login: async (identifier, password) => {
         try {
-            const { data: student, error: dbError } = await supabase
-                .from('profiles')
-                .select('id, index_number, full_name, status')
-                .eq('index_number', identifier)
-                .eq('password', password)
-                .maybeSingle();
-
-            if (student) {
-                if (student.status === 'Inactive') {
-                    throw new Error("Access Denied: Your account is inactive.");
-                }
-                localStorage.setItem('user_role', 'student');
-                localStorage.setItem('user_id', student.id);
-                localStorage.setItem('user_index', student.index_number);
-                return { user: student, role: 'student' };
+            let email = identifier;
+            if (!identifier.includes('@')) {
+                email = `${identifier}@live.gctu.edu.gh`;
             }
 
-            const { data: admin, error: authError } = await supabase.auth.signInWithPassword({
-                email: identifier,
+            const { data, error: authError } = await supabase.auth.signInWithPassword({
+                email: email,
                 password: password
             });
 
-            if (admin.user) {
-                localStorage.setItem('user_role', 'admin');
-                return { user: admin.user, role: 'admin' };
+            if (authError) throw authError;
+
+            const user = data.user;
+            const role = user.user_metadata.role || 'student';
+
+            if (role === 'student') {
+                const { data: profile, error: profileError } = await supabase
+                    .from('profiles')
+                    .select('status, index_number')
+                    .eq('id', user.id)
+                    .maybeSingle();
+
+                const backupIndex = user.email.split('@')[0];
+
+                if (profile && profile.status === 'Inactive') {
+                    await supabase.auth.signOut();
+                    throw new Error("Access Denied: Your account is inactive.");
+                }
+                
+                localStorage.setItem('user_index', profile ? profile.index_number : backupIndex);
             }
 
-            throw new Error("Invalid Index Number or Password.");
+            localStorage.setItem('user_role', role);
+            localStorage.setItem('user_id', user.id);
+            
+            return { user, role };
+
         } catch (err) {
             console.error("Login Error:", err.message);
-            return { error: err.message };
+            const msg = err.message === 'Invalid login credentials' 
+                ? "Invalid Index Number/Email or Password." 
+                : err.message;
+            return { error: msg };
         }
     },
 
-    // 2. NEW: Find Email by constructing it from Index Number
+    /**
+     * 2. Find Email by Index
+     * Used in the Forgot Password flow to identify the target email.
+     */
     findEmailByIndex: async (indexNumber) => {
         try {
-            // Check if the student exists in our profiles table first
             const { data, error } = await supabase
                 .from('profiles')
                 .select('index_number')
@@ -53,7 +70,6 @@ export const authAPI = {
             if (error) throw error;
             if (!data) throw new Error("Index Number not found in our records.");
 
-            // Dynamically construct the GCTU student email
             const studentEmail = `${data.index_number}@live.gctu.edu.gh`;
             return { email: studentEmail, error: null };
         } catch (err) {
@@ -61,7 +77,10 @@ export const authAPI = {
         }
     },
 
-    // 3. NEW: Send Supabase Reset Link
+    /**
+     * 3. Send Reset Link
+     * Triggers the Supabase recovery email.
+     */
     sendResetLink: async (email) => {
         try {
             const { error } = await supabase.auth.resetPasswordForEmail(email, {
@@ -74,26 +93,29 @@ export const authAPI = {
         }
     },
 
-    // 4. Logout Function
+    /**
+     * 4. Logout Function
+     * Clears all session data and signs out of Supabase.
+     */
     logout: async () => {
-        localStorage.removeItem('user_role');
-        localStorage.removeItem('user_id');
-        localStorage.removeItem('user_index');
+        localStorage.clear(); 
         await supabase.auth.signOut();
         window.location.href = '../index.html';
     },
 
-    // 5. Check Session
+    /**
+     * 5. Get Current User Session
+     * Returns the active user and their role.
+     */
     getCurrentUser: async () => {
-        const role = localStorage.getItem('user_role');
-        if (role === 'student') {
-            return { 
-                id: localStorage.getItem('user_id'),
-                index_number: localStorage.getItem('user_index'),
-                role: 'student' 
-            };
-        }
-        const { data } = await supabase.auth.getUser();
-        return data.user || null;
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return null;
+
+        return {
+            id: user.id,
+            email: user.email,
+            role: user.user_metadata.role || 'student',
+            index_number: localStorage.getItem('user_index')
+        };
     }
 };

@@ -7,6 +7,7 @@
     <title>GCTU Student Portal | Login</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
     <script>
         tailwind.config = {
             theme: {
@@ -32,11 +33,13 @@
         <div class="max-w-6xl mx-auto flex items-center justify-between w-full">
 
             <div class="flex items-center gap-2 md:gap-4 flex-1">
-                
+
                 <img src="assets/images/icons/ceng.png" alt="CENG Logo"
                     class="h-10 w-auto sm:h-12 md:h-14 bg-white rounded-full border-2 border-gctu-blue p-0.5 md:p-1 flex-shrink-0">
 
-                <div class="min-w-0"> <h1 class="text-white text-[11px] sm:text-sm md:text-2xl font-bold uppercase tracking-wide leading-tight">
+                <div class="min-w-0">
+                    <h1
+                        class="text-white text-[11px] sm:text-sm md:text-2xl font-bold uppercase tracking-wide leading-tight">
                         Ghana Communication<br class="md:hidden"> Technology University
                     </h1>
                     <p class="text-gctu-gold text-[9px] md:text-xs uppercase tracking-wider font-semibold mt-0.5">
@@ -51,12 +54,14 @@
         </div>
     </header>
 
-    <div class="flex-grow flex items-center justify-center p-4 bg-[url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=1000&auto=format&fit=crop')] bg-cover bg-center relative">
-        
+    <div
+        class="flex-grow flex items-center justify-center p-4 bg-[url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=1000&auto=format&fit=crop')] bg-cover bg-center relative">
+
         <div class="absolute inset-0 bg-gctu-blue bg-opacity-80"></div>
 
-        <div class="relative bg-white rounded-t-lg border-t-4 border-gctu-gold shadow-2xl w-full max-w-md mx-4 md:mx-0 overflow-hidden">
-            
+        <div
+            class="relative bg-white rounded-t-lg border-t-4 border-gctu-gold shadow-2xl w-full max-w-md mx-4 md:mx-0 overflow-hidden">
+
             <div class="bg-gray-50 p-5 md:p-6 border-b border-gray-200 text-center">
                 <h2 class="text-xl md:text-2xl font-bold text-gctu-blue">Sign In</h2>
                 <p class="text-gray-500 text-xs md:text-sm mt-1">Access your class schedule & resources</p>
@@ -64,13 +69,15 @@
 
             <form id="loginForm" class="p-6 md:p-8 space-y-5 md:space-y-6">
                 <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-1.5 uppercase text-xs tracking-wide">Index Number</label>
+                    <label class="block text-sm font-bold text-gray-700 mb-1.5 uppercase text-xs tracking-wide">Index
+                        Number</label>
                     <input type="text" id="indexNumber" placeholder="Enter Index Number" required
                         class="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded focus:outline-none focus:border-gctu-blue focus:ring-1 focus:ring-gctu-blue transition text-sm md:text-base">
                 </div>
 
                 <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-1.5 uppercase text-xs tracking-wide">Password</label>
+                    <label
+                        class="block text-sm font-bold text-gray-700 mb-1.5 uppercase text-xs tracking-wide">Password</label>
                     <input type="password" id="password" placeholder="••••••••" required
                         class="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded focus:outline-none focus:border-gctu-blue focus:ring-1 focus:ring-gctu-blue transition text-sm md:text-base">
                 </div>
@@ -79,7 +86,8 @@
                     <label class="flex items-center text-gray-600">
                         <input type="checkbox" class="mr-2 text-gctu-blue focus:ring-gctu-blue rounded"> Remember Me
                     </label>
-                    <a href="#" class="text-gctu-blue font-bold hover:underline">Forgot Password?</a>
+                    <a href="#" id="forgotPassword" class="text-gctu-blue font-bold hover:underline">Forgot
+                        Password?</a>
                 </div>
 
                 <button type="submit"
@@ -89,7 +97,34 @@
             </form>
 
             <div class="bg-gray-50 p-4 text-center text-[10px] md:text-xs text-gray-500 border-t border-gray-200">
-                &copy; 2025 Ghana Communication Technology University
+                &copy; <span id="currentYear"></span> Ghana Communication Technology University
+            </div>
+        </div>
+    </div>
+
+    <div id="forgotModal"
+        class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4 bg-black bg-opacity-60 backdrop-blur-sm">
+        <div class="bg-white rounded-lg shadow-2xl w-full max-w-md overflow-hidden border-t-4 border-gctu-gold">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-bold text-gctu-blue uppercase tracking-tight">Reset Password</h3>
+                    <button id="closeModal" class="text-gray-400 hover:text-gctu-blue text-2xl">&times;</button>
+                </div>
+
+                <div id="modalBody" class="space-y-4">
+                    <p class="text-sm text-gray-600">Enter your <strong>Index Number</strong>. We will send a secure
+                        reset link to your registered GCTU email.</p>
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-1">Index
+                            Number</label>
+                        <input type="text" id="resetIndex" placeholder="e.g. 040921..."
+                            class="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded focus:ring-1 focus:ring-gctu-blue outline-none transition">
+                    </div>
+                    <button id="sendResetBtn"
+                        class="w-full bg-gctu-blue text-white font-bold py-3 rounded hover:bg-opacity-90 transition shadow-lg">
+                        SEND RESET LINK
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -97,41 +132,74 @@
     <script type="module">
         import { authAPI } from './shared/js/api/auth_api.js';
 
+        // 1. Set Year
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        // 2. Modal Controls
+        const forgotLink = document.querySelector('a[class*="hover:underline"]');
+        const modal = document.getElementById('forgotModal');
+        const closeModal = document.getElementById('closeModal');
+        const sendResetBtn = document.getElementById('sendResetBtn');
+        const resetIndexInput = document.getElementById('resetIndex');
+
+        forgotLink.onclick = (e) => { e.preventDefault(); modal.classList.remove('hidden'); };
+        closeModal.onclick = () => modal.classList.add('hidden');
+
+        // 3. Handle Reset Request
+        sendResetBtn.onclick = async () => {
+            const index = resetIndexInput.value;
+            if (!index) return alert("Please enter your Index Number");
+
+            sendResetBtn.innerText = "FINDING ACCOUNT...";
+            sendResetBtn.disabled = true;
+
+            // Step A: Find email by index
+            const { email, error: findError } = await authAPI.findEmailByIndex(index);
+
+            if (findError) {
+                alert(findError);
+                sendResetBtn.innerText = "SEND RESET LINK";
+                sendResetBtn.disabled = false;
+                return;
+            }
+
+            // Step B: Send Supabase Magic Link
+            sendResetBtn.innerText = "SENDING LINK...";
+            const { error: sendError } = await authAPI.sendResetLink(email);
+
+            if (sendError) {
+                alert("Error: " + sendError.message);
+                sendResetBtn.innerText = "SEND RESET LINK";
+                sendResetBtn.disabled = false;
+            } else {
+                alert(`A reset link has been sent to: ${email}`);
+                modal.classList.add('hidden');
+                sendResetBtn.innerText = "SEND RESET LINK";
+                sendResetBtn.disabled = false;
+            }
+        };
+
+        // 4. Handle Login
         const loginForm = document.getElementById('loginForm');
         const loginBtn = loginForm.querySelector('button');
-        const indexInput = document.getElementById('indexNumber');
-        const passInput = document.getElementById('password');
 
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            
-            // 1. Show "Loading..." state
             const originalText = loginBtn.innerText;
             loginBtn.innerText = "VERIFYING...";
             loginBtn.disabled = true;
-            loginBtn.classList.add('opacity-50', 'cursor-not-allowed');
 
-            // 2. Get values
-            const indexNumber = indexInput.value;
-            const password = passInput.value;
+            const result = await authAPI.login(
+                document.getElementById('indexNumber').value,
+                document.getElementById('password').value
+            );
 
-            // 3. Call the API
-            const result = await authAPI.login(indexNumber, password);
-
-            // 4. Handle Result
             if (result.error) {
-                // FAILURE: Reset button and show alert
                 alert("Login Failed: " + result.error);
                 loginBtn.innerText = originalText;
                 loginBtn.disabled = false;
-                loginBtn.classList.remove('opacity-50', 'cursor-not-allowed');
             } else {
-                // SUCCESS: Redirect based on Role
-                if (result.role === 'admin') {
-                    window.location.href = 'admin/index.html';
-                } else {
-                    window.location.href = 'student/index.html';
-                }
+                window.location.href = result.role === 'admin' ? 'admin/index.html' : 'student/index.html';
             }
         });
     </script>

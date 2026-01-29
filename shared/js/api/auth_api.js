@@ -1,74 +1,90 @@
-// Z:\unisync-project\shared\js\api\auth_api.js
-
+// shared/js/api/auth_api.js
 import supabase from '../supabase_client.js';
 
 export const authAPI = {
     
-    // 1. The Unified Login Function (Handles Students & Admins)
+    // 1. Existing Login Function
     login: async (identifier, password) => {
         try {
-            // --- CHECK 1: Is it a Student? (Database Check) ---
-            // We search the 'profiles' table directly for a matching Index Number + Password
             const { data: student, error: dbError } = await supabase
                 .from('profiles')
                 .select('id, index_number, full_name, status')
                 .eq('index_number', identifier)
                 .eq('password', password)
-                .maybeSingle(); // Returns null if not found, instead of error
+                .maybeSingle();
 
             if (student) {
-                // SUCCESS: Found a student!
                 if (student.status === 'Inactive') {
                     throw new Error("Access Denied: Your account is inactive.");
                 }
-
-                // 1. Save Student Session to Local Storage manually
                 localStorage.setItem('user_role', 'student');
                 localStorage.setItem('user_id', student.id);
                 localStorage.setItem('user_index', student.index_number);
-                
                 return { user: student, role: 'student' };
             }
 
-            // --- CHECK 2: Is it an Admin? (Auth System Check) ---
-            // If DB check failed, try signing in with Email/Password
             const { data: admin, error: authError } = await supabase.auth.signInWithPassword({
                 email: identifier,
                 password: password
             });
 
             if (admin.user) {
-                // SUCCESS: Found an Admin!
                 localStorage.setItem('user_role', 'admin');
                 return { user: admin.user, role: 'admin' };
             }
 
-            // --- FAILURE ---
             throw new Error("Invalid Index Number or Password.");
-
         } catch (err) {
             console.error("Login Error:", err.message);
             return { error: err.message };
         }
     },
 
-    // 2. The Logout Function
+    // 2. NEW: Find Email by constructing it from Index Number
+    findEmailByIndex: async (indexNumber) => {
+        try {
+            // Check if the student exists in our profiles table first
+            const { data, error } = await supabase
+                .from('profiles')
+                .select('index_number')
+                .eq('index_number', indexNumber)
+                .maybeSingle();
+
+            if (error) throw error;
+            if (!data) throw new Error("Index Number not found in our records.");
+
+            // Dynamically construct the GCTU student email
+            const studentEmail = `${data.index_number}@live.gctu.edu.gh`;
+            return { email: studentEmail, error: null };
+        } catch (err) {
+            return { email: null, error: err.message };
+        }
+    },
+
+    // 3. NEW: Send Supabase Reset Link
+    sendResetLink: async (email) => {
+        try {
+            const { error } = await supabase.auth.resetPasswordForEmail(email, {
+                redirectTo: window.location.origin + '/reset-password.html', 
+            });
+            if (error) throw error;
+            return { success: true, error: null };
+        } catch (err) {
+            return { success: false, error: err };
+        }
+    },
+
+    // 4. Logout Function
     logout: async () => {
-        // Clear Local Storage (For Students)
         localStorage.removeItem('user_role');
         localStorage.removeItem('user_id');
         localStorage.removeItem('user_index');
-        
-        // Clear Supabase Session (For Admins)
         await supabase.auth.signOut();
-        
-        // Redirect
         window.location.href = '../index.html';
     },
 
-    // 3. Check if user is already logged in
+    // 5. Check Session
     getCurrentUser: async () => {
-        // A. Check Local Storage first (Student)
         const role = localStorage.getItem('user_role');
         if (role === 'student') {
             return { 
@@ -77,8 +93,6 @@ export const authAPI = {
                 role: 'student' 
             };
         }
-
-        // B. Check Supabase Auth (Admin)
         const { data } = await supabase.auth.getUser();
         return data.user || null;
     }

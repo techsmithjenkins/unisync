@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile | GCTU Student</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="../assets/images/favicon.ico">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -17,6 +20,25 @@
         }
     </script>
 </head>
+
+<style>
+    body.dark-mode {
+        background-color: #0f172a !important;
+        color: #f8fafc !important;
+    }
+
+    body.dark-mode .bg-white {
+        background-color: #1e293b !important;
+        border-color: #334155 !important;
+    }
+
+    body.dark-mode h2,
+    body.dark-mode h3,
+    body.dark-mode h4 {
+        color: #f8fafc !important;
+    }
+</style>
+
 <body class="bg-gray-50 text-gray-800 font-sans h-screen flex overflow-hidden">
 
     <script type="module">
@@ -25,42 +47,51 @@
     </script>
 
     <div class="flex-1 flex flex-col h-full relative">
-        
+
         <header class="md:hidden bg-gctu-blue text-white sticky top-0 z-50 shadow-md p-4">
             <h3 class="font-bold text-lg">My Profile</h3>
         </header>
 
         <main class="flex-1 overflow-y-auto p-4 md:p-8 pb-24 md:pb-8">
             <div class="max-w-4xl mx-auto flex flex-col md:flex-row gap-8">
-                
+
                 <div class="w-full md:w-1/3 flex flex-col items-center">
-                    
-                    <div class="bg-white w-full max-w-sm rounded-2xl shadow-lg overflow-hidden border border-gray-200 relative">
+
+                    <div
+                        class="bg-white w-full max-w-sm rounded-2xl shadow-lg overflow-hidden border border-gray-200 relative">
                         <div class="bg-gctu-blue h-24 relative overflow-hidden">
                             <div class="absolute -right-4 -top-4 w-24 h-24 bg-gctu-gold rounded-full opacity-80"></div>
                             <div class="absolute left-4 bottom-4 text-white">
                                 <h3 class="font-bold text-sm tracking-widest uppercase opacity-80">Student ID</h3>
                             </div>
                         </div>
-                        
+
                         <div class="flex justify-center -mt-12 relative z-10">
                             <div class="w-24 h-24 bg-white rounded-full p-1 shadow-md">
-                                <div class="w-full h-full bg-blue-50 text-gctu-blue rounded-full flex items-center justify-center text-3xl font-bold border-2 border-gctu-gold">
-                                    <span id="profileInitials">--</span> </div>
+                                <div
+                                    class="w-full h-full bg-blue-50 text-gctu-blue rounded-full flex items-center justify-center text-3xl font-bold border-2 border-gctu-gold">
+                                    <span id="profileInitials">--</span>
+                                </div>
                             </div>
                         </div>
 
                         <div class="text-center p-6 pt-2">
-                            <h2 id="profileName" class="text-xl font-bold text-gray-800">Loading...</h2> <p id="profileIndex" class="text-sm text-gray-500 font-mono mt-1">...</p> <div class="mt-4 flex justify-center gap-2">
-                                <span class="bg-blue-50 text-gctu-blue text-xs font-bold px-3 py-1 rounded-full border border-blue-100">Level 300</span>
-                                <span id="profileStatus" class="bg-gray-100 text-gray-500 text-xs font-bold px-3 py-1 rounded-full border border-gray-200">Checking...</span> </div>
+                            <h2 id="profileName" class="text-xl font-bold text-gray-800">Loading...</h2>
+                            <p id="profileIndex" class="text-sm text-gray-500 font-mono mt-1">...</p>
+                            <div class="mt-4 flex justify-center gap-2">
+                                <span
+                                    class="bg-blue-50 text-gctu-blue text-xs font-bold px-3 py-1 rounded-full border border-blue-100">Level
+                                    300</span>
+                                <span id="profileStatus"
+                                    class="bg-gray-100 text-gray-500 text-xs font-bold px-3 py-1 rounded-full border border-gray-200">Checking...</span>
+                            </div>
 
                             <div class="mt-6 border-t border-gray-100 pt-4">
                                 <p class="text-xs text-gray-400 uppercase tracking-wider mb-2">Program</p>
                                 <p class="text-sm font-bold text-gray-700">BSc. Computer Engineering</p>
                             </div>
                         </div>
-                        
+
                         <div class="bg-gray-100 h-8 flex items-center justify-center gap-1 opacity-50">
                             <div class="w-1 h-4 bg-gray-400"></div>
                             <div class="w-2 h-4 bg-gray-400"></div>
@@ -75,9 +106,11 @@
 
                 <div class="flex-1 w-full">
                     <h3 class="font-bold text-gray-700 text-lg mb-4">Account Settings</h3>
-                    
-                    <div class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-200 divide-y divide-gray-100">
-                        <div class="p-4 flex items-center justify-between hover:bg-gray-50 cursor-pointer transition">
+
+                    <div
+                        class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-200 divide-y divide-gray-100">
+                        <div id="changePasswordRow"
+                            class="p-4 flex items-center justify-between hover:bg-gray-50 cursor-pointer transition">
                             <div class="flex items-center gap-3">
                                 <span class="bg-blue-50 p-2 rounded text-gctu-blue">🔒</span>
                                 <div>
@@ -87,7 +120,7 @@
                             </div>
                             <span class="text-gray-300">›</span>
                         </div>
-                        
+
                         <div class="p-4 flex items-center justify-between hover:bg-gray-50 cursor-pointer transition">
                             <div class="flex items-center gap-3">
                                 <span class="bg-yellow-50 p-2 rounded text-yellow-600">🔔</span>
@@ -99,7 +132,8 @@
                             <span class="text-gray-300">›</span>
                         </div>
 
-                        <div class="p-4 flex items-center justify-between hover:bg-gray-50 cursor-pointer transition">
+                        <div id="appearanceRow"
+                            class="p-4 flex items-center justify-between hover:bg-gray-50 cursor-pointer transition">
                             <div class="flex items-center gap-3">
                                 <span class="bg-gray-50 p-2 rounded text-gray-600">🌙</span>
                                 <div>
@@ -107,12 +141,13 @@
                                     <p class="text-xs text-gray-400">Switch to Dark Mode (Beta)</p>
                                 </div>
                             </div>
-                            <span class="text-gray-300">›</span>
+                            <span id="darkModeStatus" class="text-xs font-bold text-gray-400">OFF</span>
                         </div>
                     </div>
 
                     <div class="mt-8">
-                        <button id="logoutBtn" class="w-full bg-white border border-red-200 text-red-500 font-bold py-3 rounded-xl shadow-sm hover:bg-red-50 transition flex items-center justify-center gap-2">
+                        <button id="logoutBtn"
+                            class="w-full bg-white border border-red-200 text-red-500 font-bold py-3 rounded-xl shadow-sm hover:bg-red-50 transition flex items-center justify-center gap-2">
                             <span>🚪 Logout</span>
                         </button>
                         <p class="text-center text-gray-300 text-xs mt-4">UniSync v1.0.0 • GCTU Engineering</p>
@@ -124,21 +159,34 @@
     </div>
 
     <script type="module" src="./js/modules/profile_mgr.js"></script>
-    <script type="module">
-        import { authAPI } from '../shared/js/api/auth_api.js';
 
-        const logoutBtn = document.getElementById('logoutBtn');
-        if (logoutBtn) {
-            logoutBtn.addEventListener('click', async () => {
-                try {
-                    await authAPI.logout();
-                } catch (err) {
-                    console.error('Logout failed', err);
-                } finally {
-                    window.location.href = '../index.html';
+    <script type="module">
+        import { authAPI } from '../../../shared/js/api/auth_api.js';
+
+        const btn = document.getElementById('logoutBtn');
+
+        if (btn) {
+            btn.onclick = async (e) => {
+                e.preventDefault();
+
+                const confirmLogout = confirm("Are you sure you want to logout of the GCTU Portal?");
+
+                if (confirmLogout) {
+                    try {
+
+                        localStorage.removeItem('user_index');
+                        localStorage.removeItem('user_role');
+
+                        await authAPI.logout();
+                    } catch (err) {
+                        console.error("Logout process error:", err);
+                    } finally {
+                        window.location.replace('../index.html');
+                    }
                 }
-            });
+            };
         }
     </script>
 </body>
+
 </html>

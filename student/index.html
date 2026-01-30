@@ -1,17 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard | GCTU Student</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="../assets/images/favicon.ico">
     <script>
         tailwind.config = {
             theme: { extend: { colors: { 'gctu-blue': '#002147', 'gctu-gold': '#FFD700', 'danger': '#d32f2f' }, fontFamily: { sans: ['"Inter"', 'sans-serif'] } } }
         }
     </script>
 </head>
+
 <body class="bg-gray-50 text-gray-800 font-sans h-screen flex overflow-hidden">
 
     <script type="module">
@@ -20,10 +23,12 @@
     </script>
 
     <div class="flex-1 flex flex-col h-full relative">
-        <header class="md:hidden bg-gctu-blue text-white sticky top-0 z-50 shadow-md border-b-4 border-gctu-gold px-4 py-3 flex justify-between items-center">
+        <header
+            class="md:hidden bg-gctu-blue text-white sticky top-0 z-50 shadow-md border-b-4 border-gctu-gold px-4 py-3 flex justify-between items-center">
             <div class="flex items-center gap-2">
-                <div class="w-8 h-8 bg-white text-gctu-blue rounded-full flex items-center justify-center font-bold text-sm">G</div>
-                <span class="font-bold tracking-wide">GCTU PORTAL</span>
+                <img src="../assets/images/icons/unisync.png" alt="GCTU Logo"
+                    class="h-8 w-8 bg-white rounded-full p-0.5">
+                <span class="font-bold tracking-wide">Unisync</span>
             </div>
             <div class="text-right">
                 <span class="block text-xs font-bold text-gctu-gold" id="currentDate">--</span>
@@ -32,10 +37,15 @@
 
         <main class="flex-1 overflow-y-auto p-4 md:p-8 pb-24 md:pb-8">
             <div class="max-w-5xl mx-auto space-y-6">
-                
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex justify-between items-center bg-gradient-to-r from-white to-blue-50">
+
+                <div
+                    class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex justify-between items-center bg-gradient-to-r from-white to-blue-50">
                     <div>
-                        <h2 id="welcomeName" class="text-2xl font-bold text-gctu-blue">Welcome back!</h2>
+                        <div class="flex items-center gap-3">
+                            <h2 id="welcomeName" class="text-2xl font-bold text-gctu-blue">Welcome back!</h2>
+                            <span id="desktopDate"
+                                class="hidden md:block bg-gctu-gold/20 text-gctu-blue text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider"></span>
+                        </div>
                         <p class="text-gray-500 text-sm mt-1">Here is your timeline for today.</p>
                     </div>
                     <div class="hidden sm:block text-4xl">🎓</div>
@@ -46,7 +56,8 @@
                         <h3 class="font-bold text-gray-700 uppercase text-xs tracking-wider">Today's Schedule</h3>
 
                         <div class="bg-white rounded-xl shadow-sm border-l-4 border-gctu-gold flex overflow-hidden">
-                            <div class="bg-blue-50 w-24 flex flex-col items-center justify-center border-r border-blue-100 p-3">
+                            <div
+                                class="bg-blue-50 w-24 flex flex-col items-center justify-center border-r border-blue-100 p-3">
                                 <span class="text-gctu-blue font-bold text-xl">10:30</span>
                             </div>
                             <div class="p-4 flex-1">
@@ -56,7 +67,8 @@
                         </div>
 
                         <div class="bg-white rounded-xl shadow-sm border border-gray-100 flex overflow-hidden">
-                            <div class="bg-gray-50 w-24 flex flex-col items-center justify-center border-r border-gray-100 p-3">
+                            <div
+                                class="bg-gray-50 w-24 flex flex-col items-center justify-center border-r border-gray-100 p-3">
                                 <span class="text-gray-700 font-bold text-xl">14:00</span>
                             </div>
                             <div class="p-4 flex-1">
@@ -81,4 +93,5 @@
 
     <script type="module" src="./js/modules/dashboard_mgr.js"></script>
 </body>
+
 </html>

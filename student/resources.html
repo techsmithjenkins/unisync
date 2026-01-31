@@ -2,21 +2,27 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Resources | GCTU Student</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../shared/css/themes.css">
+    <link rel="icon" type="image/x-icon" href="../assets/images/favicon.ico">
     <script>
         tailwind.config = {
-            theme: {
-                extend: {
-                    colors: { 'gctu-blue': '#002147', 'gctu-gold': '#FFD700' },
-                    fontFamily: { sans: ['"Inter"', 'sans-serif'] }
-                }
-            }
+            theme: { extend: { colors: { 'gctu-blue': '#002147', 'gctu-gold': '#FFD700' }, fontFamily: { sans: ['"Inter"', 'sans-serif'] } } }
         }
     </script>
-    <link rel="stylesheet" href="../shared/css/themes.css">
+    <style>
+        #main-content {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .custom-scroll::-webkit-scrollbar { width: 5px; }
+        .custom-scroll::-webkit-scrollbar-track { background: transparent; }
+        .custom-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+    </style>
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans h-screen flex overflow-hidden">
 
@@ -25,22 +31,30 @@
         loadStudentHeader('resources');
     </script>
 
-    <div class="flex-1 flex flex-col h-full relative">
+    <div id="main-content" class="flex-1 flex flex-col min-w-0 h-full relative">
         
-        <header class="md:hidden bg-gctu-blue text-white sticky top-0 z-50 shadow-md p-4">
-            <h3 class="font-bold text-lg">Course Materials</h3>
-        </header>
+        <main class="flex-1 overflow-y-auto custom-scroll p-4 md:p-8 pb-32 md:pb-8">
+            <div class="max-w-4xl mx-auto space-y-6">
+                
+                <div class="space-y-4">
+                    <div class="flex flex-col gap-1">
+                        <h2 class="text-2xl font-bold text-gctu-blue">Course Materials</h2>
+                        <p class="text-gray-500 text-sm">Access slides, past questions, and handouts.</p>
+                    </div>
 
-        <main class="flex-1 overflow-y-auto p-4 md:p-8 pb-24 md:pb-8">
-            <div class="max-w-4xl mx-auto">
-                <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-2xl font-bold text-gctu-blue hidden md:block">Course Materials</h2>
+                    <div class="relative group">
+                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400 group-focus-within:text-gctu-blue transition-colors">
+                            🔍
+                        </span>
+                        <input type="text" id="resourceSearch" placeholder="Search by course or file name..." 
+                            class="w-full bg-white border border-gray-200 py-3 pl-10 pr-4 rounded-xl shadow-sm outline-none focus:ring-2 focus:ring-gctu-blue/20 focus:border-gctu-blue transition-all">
+                    </div>
                 </div>
                 
-                <div id="resourceList" class="space-y-6">
-                    <div class="flex flex-col items-center justify-center py-20 text-gray-400">
+                <div id="resourceList" class="grid grid-cols-1 gap-4">
+                    <div class="flex flex-col items-center justify-center py-20 text-gray-400 bg-white rounded-3xl border border-dashed border-gray-200">
                         <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-gctu-blue mb-4"></div>
-                        <p>Loading library...</p>
+                        <p class="font-medium">Opening the archives...</p>
                     </div>
                 </div>
 

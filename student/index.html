@@ -24,17 +24,6 @@
     </script>
 
     <div class="flex-1 flex flex-col h-full relative">
-        <header
-            class="md:hidden bg-gctu-blue text-white sticky top-0 z-50 shadow-md border-b-4 border-gctu-gold px-4 py-3 flex justify-between items-center">
-            <div class="flex items-center gap-2">
-                <img src="../assets/images/icons/unisync.png" alt="GCTU Logo"
-                    class="h-8 w-8 bg-white rounded-full p-0.5">
-                <span class="font-bold tracking-wide">Unisync</span>
-            </div>
-            <div class="text-right">
-                <span class="block text-xs font-bold text-gctu-gold" id="currentDate">--</span>
-            </div>
-        </header>
 
         <main class="flex-1 overflow-y-auto p-4 md:p-8 pb-24 md:pb-8">
             <div class="max-w-5xl mx-auto space-y-6">
@@ -53,30 +42,9 @@
                 </div>
 
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <div class="lg:col-span-2 space-y-4">
+                    <div id="dailyScheduleList" class="lg:col-span-2 space-y-4">
                         <h3 class="font-bold text-gray-700 uppercase text-xs tracking-wider">Today's Schedule</h3>
-
-                        <div class="bg-white rounded-xl shadow-sm border-l-4 border-gctu-gold flex overflow-hidden">
-                            <div
-                                class="bg-blue-50 w-24 flex flex-col items-center justify-center border-r border-blue-100 p-3">
-                                <span class="text-gctu-blue font-bold text-xl">10:30</span>
-                            </div>
-                            <div class="p-4 flex-1">
-                                <h4 class="font-bold text-lg text-gctu-blue">Software Engineering</h4>
-                                <p class="text-sm text-gray-500 mt-1">Lab 3 • Mr. Jenkins</p>
-                            </div>
-                        </div>
-
-                        <div class="bg-white rounded-xl shadow-sm border border-gray-100 flex overflow-hidden">
-                            <div
-                                class="bg-gray-50 w-24 flex flex-col items-center justify-center border-r border-gray-100 p-3">
-                                <span class="text-gray-700 font-bold text-xl">14:00</span>
-                            </div>
-                            <div class="p-4 flex-1">
-                                <h4 class="font-bold text-gray-800">Signals & Systems</h4>
-                                <p class="text-xs text-gray-400 mt-2">Room 404 • Engineering Block</p>
-                            </div>
-                        </div>
+                        <p class="text-gray-400 text-sm italic">Loading your timeline...</p>
                     </div>
 
                     <div class="hidden lg:block space-y-6">

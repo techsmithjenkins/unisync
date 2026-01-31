@@ -1,12 +1,8 @@
-/* shared/css/themes.css */
-
-/* --- DARK MODE CORE --- */
 body.dark-mode {
-    background-color: #0f172a !important; /* Deep Slate Blue */
+    background-color: #0f172a !important;
     color: #f8fafc !important;
 }
 
-/* Sidebars & Cards */
 body.dark-mode .bg-white:not(.swal2-popup),
 body.dark-mode aside,
 body.dark-mode nav.bg-white {
@@ -14,7 +10,6 @@ body.dark-mode nav.bg-white {
     border-color: #334155 !important;
 }
 
-/* Headings */
 body.dark-mode h1, 
 body.dark-mode h2, 
 body.dark-mode h3, 
@@ -22,14 +17,12 @@ body.dark-mode h4 {
     color: #f8fafc !important;
 }
 
-/* Secondary/Gray Text */
 body.dark-mode .text-gray-400,
 body.dark-mode .text-gray-500,
 body.dark-mode .text-gray-600 {
     color: #94a3b8 !important;
 }
 
-/* --- HOVER STATES (The fix for your buttons) --- */
 body.dark-mode .hover\:bg-gray-50:hover,
 body.dark-mode .hover\:bg-gray-100:hover,
 body.dark-mode .hover\:bg-blue-50:hover {
@@ -37,7 +30,6 @@ body.dark-mode .hover\:bg-blue-50:hover {
     color: #f8fafc !important;
 }
 
-/* --- CARDS & BADGES --- */
 body.dark-mode .bg-gray-50,
 body.dark-mode .bg-gray-100,
 body.dark-mode .bg-blue-50 {
@@ -45,12 +37,30 @@ body.dark-mode .bg-blue-50 {
     border-color: #334155 !important;
 }
 
-/* Keep GCTU Gold visible but not blinding */
 body.dark-mode .text-gctu-blue {
-    color: #38bdf8 !important; /* Lighter blue for readability on dark */
+    color: #38bdf8 !important;
 }
 
-/* Desktop/Mobile Nav icons */
 body.dark-mode .text-gray-400 {
     color: #64748b !important;
+}
+
+/* --- NEWS/EVENTS PAGE DARK MODE FIXES --- */
+body.dark-mode .bg-red-50 {
+    background-color: #2d1616 !important;
+    border-color: #451a1a !important;
+}
+
+body.dark-mode .bg-red-100 {
+    background-color: #451a1a !important;
+    color: #f87171 !important;
+}
+
+body.dark-mode .bg-blue-50 {
+    background-color: #1e3a8a !important;
+    color: #bfdbfe !important;
+}
+
+body.dark-mode #newsList p.text-gray-700 {
+    color: #cbd5e1 !important;
 }

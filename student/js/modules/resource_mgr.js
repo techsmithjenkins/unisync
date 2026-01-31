@@ -65,7 +65,7 @@ async function loadResources() {
                     <div class="flex items-center gap-3 overflow-hidden">
                         <div class="w-8 h-8 bg-blue-50 text-blue-600 rounded flex items-center justify-center text-lg shrink-0">${icon}</div>
                         <div class="min-w-0">
-                            <h5 class="text-sm font-bold text-gray-800 truncate group-hover:text-gctu-blue transition">${file.title}</h5>
+                            <h5 class="text-sm font-bold truncate group-hover:text-gctu-blue transition">${file.title}</h5>
                             <p class="text-[10px] text-gray-400 uppercase tracking-wide">${file.category} • ${file.size_kb} KB • ${date}</p>
                         </div>
                     </div>

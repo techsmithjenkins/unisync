@@ -27,15 +27,28 @@
         color: #f8fafc !important;
     }
 
-    body.dark-mode .bg-white {
+    body.dark-mode .bg-white:not(.swal2-popup) {
         background-color: #1e293b !important;
         border-color: #334155 !important;
     }
 
-    body.dark-mode h2,
-    body.dark-mode h3,
-    body.dark-mode h4 {
+    body.dark-mode main h2,
+    body.dark-mode main h3,
+    body.dark-mode main h4 {
         color: #f8fafc !important;
+    }
+
+    body.dark-mode .hover\:bg-gray-50:hover {
+        background-color: #334155 !important;
+    }
+
+    body.dark-mode .text-gray-400,
+    body.dark-mode .text-gray-500 {
+        color: #94a3b8 !important;
+    }
+
+    body.dark-mode .bg-gray-100 {
+        background-color: #334155 !important;
     }
 </style>
 
@@ -146,7 +159,7 @@
                     </div>
 
                     <div class="mt-8">
-                        <button id="logoutBtn"
+                        <button id="settingsLogoutBtn"
                             class="w-full bg-white border border-red-200 text-red-500 font-bold py-3 rounded-xl shadow-sm hover:bg-red-50 transition flex items-center justify-center gap-2">
                             <span>🚪 Logout</span>
                         </button>
@@ -163,24 +176,31 @@
     <script type="module">
         import { authAPI } from '../../../shared/js/api/auth_api.js';
 
-        const btn = document.getElementById('logoutBtn');
+        const logoutBtn = document.getElementById('settingsLogoutBtn');
 
-        if (btn) {
-            btn.onclick = async (e) => {
+        if (logoutBtn) {
+            logoutBtn.onclick = async (e) => {
                 e.preventDefault();
 
-                const confirmLogout = confirm("Are you sure you want to logout of the GCTU Portal?");
+                const result = await Swal.fire({
+                    title: 'Sign Out?',
+                    text: "You will be returned to the UniSync login screen.",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#002147',
+                    cancelButtonColor: '#d32f2f',
+                    confirmButtonText: 'Yes, Logout',
+                    cancelButtonText: 'Stay Logged In',
+                    heightAuto: false
+                });
 
-                if (confirmLogout) {
+                if (result.isConfirmed) {
+                    logoutBtn.disabled = true;
+                    logoutBtn.innerHTML = `<span>⏳ Logging out...</span>`;
+
                     try {
-
-                        localStorage.removeItem('user_index');
-                        localStorage.removeItem('user_role');
-
                         await authAPI.logout();
                     } catch (err) {
-                        console.error("Logout process error:", err);
-                    } finally {
                         window.location.replace('../index.html');
                     }
                 }

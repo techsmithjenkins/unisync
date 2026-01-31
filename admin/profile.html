@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Profile | Admin</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/x-icon" href="../assets/images/favicon.ico">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -17,39 +19,6 @@
             }
         }
     </script>
-
-    <style>
-        /* 1. Hide the default Eye in Edge/Internet Explorer */
-        input::-ms-reveal,
-        input::-ms-clear {
-            display: none;
-        }
-
-        /* 2. Hide the default Eye in Chrome/Safari/Edge-Chromium */
-        input::-webkit-text-security-disc {}
-
-        /* This is the main one for Chrome */
-        input[type="password"]::-webkit-calendar-picker-indicator,
-        input[type="password"]::-webkit-inner-spin-button,
-        input[type="password"]::-webkit-clear-button {
-            display: none !important;
-            -webkit-appearance: none;
-        }
-
-        /* Specific selector for the password toggle in WebKit browsers */
-        input[type="password"]::-webkit-credentials-auto-fill-button {
-            visibility: hidden;
-            pointer-events: none;
-            position: absolute;
-            right: 0;
-        }
-
-        /* The most common modern selector to kill the native eye */
-        input[type="password"]::-webkit-password-toggle-button {
-            -webkit-appearance: none;
-            display: none !important;
-        }
-    </style>
 </head>
 
 <body class="bg-gradient-to-r from-gctu-blue/90 to-blue-400 text-gray-800 font-sans min-h-screen flex flex-col">
@@ -59,185 +28,99 @@
         loadAdminHeader('profile');
     </script>
 
-    <main class="flex-1 max-w-5xl mx-auto w-full p-4 md:p-8">
+    <main class="flex-1 max-w-6xl mx-auto w-full p-4 md:p-8">
 
         <div class="relative mb-16">
-            <div
-                class="h-48 w-full bg-gradient-to-r from-gctu-blue to-blue-900 rounded-2xl shadow-lg relative overflow-hidden">
-                <div
-                    class="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]">
+            <div class="h-48 w-full bg-gradient-to-r from-gctu-blue to-blue-900 rounded-2xl shadow-lg relative overflow-hidden">
+                <div class="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+                <div class="absolute bottom-4 right-6 text-white text-opacity-20 text-4xl font-bold tracking-widest pointer-events-none uppercase">
+                    Administrator
                 </div>
-                <div
-                    class="absolute bottom-4 right-6 text-white text-opacity-20 text-4xl font-bold tracking-widest pointer-events-none">
-                    ADMINISTRATOR</div>
             </div>
 
             <div class="absolute -bottom-10 left-6 md:left-12 flex items-end gap-6">
                 <div class="relative group">
                     <img id="heroAvatar" src="../assets/images/male.jpg" alt="Avatar"
                         class="w-32 h-32 md:w-40 md:h-40 rounded-full border-[6px] border-white shadow-xl bg-white object-cover">
-                    <div class="absolute bottom-2 right-2 bg-green-500 w-5 h-5 rounded-full border-4 border-white"
-                        title="Online"></div>
+                    <div class="absolute bottom-2 right-2 bg-green-500 w-5 h-5 rounded-full border-4 border-white" title="Online"></div>
                 </div>
 
                 <div class="pb-1 mb-2">
-                    <h1 class="text-3xl md:text-4xl font-bold text-gctu-gold tracking-tight" id="heroName">Loading...
-                    </h1>
-                    <span
-                        class="inline-block bg-blue-100 text-gctu-blue text-xs font-bold px-3 py-1 rounded-full border border-blue-200 mt-1">
-                        Verified Admin
+                    <h1 class="text-3xl md:text-4xl font-bold text-gctu-gold tracking-tight" id="heroName">Loading...</h1>
+                    <span class="inline-block bg-blue-100 text-gctu-blue text-xs font-bold px-3 py-1 rounded-full border border-blue-200 mt-1 uppercase">
+                        Verified Access
                     </span>
                 </div>
             </div>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-20 md:mt-16">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-20 md:mt-16">
 
-            <div class="lg:col-span-2 space-y-8">
-                <div class="bg-gray-100 rounded-xl shadow-sm border border-gray-200 p-8">
-                    <h3
-                        class="text-lg font-bold text-gctu-blue mb-6 pb-2 border-b border-gray-100 flex items-center gap-2">
-                        <span>✏️</span> Edit Profile
-                    </h3>
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 md:p-8">
+                <h3 class="text-lg font-bold text-gctu-blue mb-6 pb-2 border-b border-gray-100 flex items-center gap-2">
+                    <span>✏️</span> Basic Information
+                </h3>
 
-                    <form id="profileForm" class="space-y-6">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <form id="profileForm" class="space-y-6">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Full Name</label>
+                            <input type="text" id="fullName" placeholder="e.g. Ebenezer Tefe"
+                                class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-gctu-blue outline-none transition font-medium">
+                        </div>
 
-                            <div class="md:col-span-2">
-                                <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Full Name</label>
-                                <input type="text" id="fullName" placeholder="e.g. Dr. Jurist Jenkins"
-                                    class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-gctu-blue outline-none transition font-medium">
-                            </div>
-
+                        <div class="grid grid-cols-2 gap-4">
                             <div>
-                                <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Gender (Updates
-                                    Avatar)</label>
-                                <select id="gender"
-                                    class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-gctu-blue outline-none bg-white cursor-pointer">
+                                <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Gender</label>
+                                <select id="gender" class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-gctu-blue outline-none bg-white cursor-pointer">
                                     <option value="male">Male</option>
                                     <option value="female">Female</option>
                                 </select>
                             </div>
-
                             <div>
-                                <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Phone Number</label>
-                                <input type="text" id="phone" placeholder="+233 XX XXX XXXX"
+                                <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Phone</label>
+                                <input type="text" id="phone" placeholder="+233..."
                                     class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-gctu-blue outline-none transition">
                             </div>
-
-                            <div class="md:col-span-2">
-                                <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Email
-                                    Address</label>
-                                <input type="text" id="adminEmail" disabled
-                                    class="w-full bg-gray-100 border border-gray-200 text-gray-500 rounded-lg p-3 cursor-not-allowed">
-                            </div>
-                        </div>
-
-                        <div class="flex justify-end pt-4 border-t border-gray-100 mt-6">
-                            <button type="submit" id="saveProfileBtn"
-                                class="bg-gctu-blue text-white px-8 py-3 rounded-lg text-sm font-bold hover:bg-blue-900 transition shadow-lg shadow-blue-900/20 flex items-center gap-2">
-                                <span>💾 Save Changes</span>
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-
-
-
-            <div class="lg:col-span-1">
-                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-8 sticky top-24">
-                    <h3
-                        class="text-lg font-bold text-gray-800 mb-6 pb-2 border-b border-gray-100 flex items-center gap-2">
-                        <span>🔒</span> Password Security
-                    </h3>
-
-                    <form id="passwordForm" class="space-y-5" autocomplete="off">
-                        <input type="text" style="display:none">
-                        <input type="password" style="display:none">
-
-                        <div>
-                            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Current Password</label>
-                            <div class="relative">
-                                <input type="password" id="currentPassword" placeholder="Required for verification"
-                                    autocomplete="new-password"
-                                    class="w-full bg-white border border-gray-300 rounded-lg p-3 pr-10 text-sm focus:ring-2 focus:ring-red-200 focus:border-red-400 outline-none transition">
-
-                                <button type="button" onclick="toggleVisibility('currentPassword', this)"
-                                    class="absolute inset-y-0 right-0 px-3 flex items-center text-gray-400 hover:text-gctu-blue transition cursor-pointer z-10">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                        stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-
-                        <hr class="border-gray-100 my-2">
-
-                        <div>
-                            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">New Password</label>
-                            <div class="relative">
-                                <input type="password" id="newPassword" placeholder="Strong password required"
-                                    autocomplete="new-password"
-                                    class="w-full border border-gray-300 rounded-lg p-3 pr-10 text-sm focus:ring-2 focus:ring-gctu-blue outline-none transition">
-
-                                <button type="button" onclick="toggleVisibility('newPassword', this)"
-                                    class="absolute inset-y-0 right-0 px-3 flex items-center text-gray-400 hover:text-gctu-blue transition cursor-pointer z-10">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                        stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                    </svg>
-                                </button>
-                            </div>
                         </div>
 
                         <div>
-                            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Confirm New
-                                Password</label>
-                            <div class="relative">
-                                <input type="password" id="confirmPassword" placeholder="Re-enter to confirm"
-                                    autocomplete="new-password"
-                                    class="w-full border border-gray-300 rounded-lg p-3 pr-10 text-sm focus:ring-2 focus:ring-gctu-blue outline-none transition">
-
-                                <button type="button" onclick="toggleVisibility('confirmPassword', this)"
-                                    class="absolute inset-y-0 right-0 px-3 flex items-center text-gray-400 hover:text-gctu-blue transition cursor-pointer z-10">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                        stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                    </svg>
-                                </button>
-                            </div>
+                            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Login Email</label>
+                            <input type="text" id="adminEmail" disabled
+                                class="w-full bg-gray-50 border border-gray-200 text-gray-400 rounded-lg p-3 cursor-not-allowed italic">
                         </div>
+                    </div>
 
-                        <div class="text-[10px] text-gray-400 space-y-1 pl-1 font-medium select-none">
-                            <p id="req-len">🔴 Min 8 characters</p>
-                            <p id="req-up">🔴 At least 1 Uppercase (A-Z)</p>
-                            <p id="req-num">🔴 At least 1 Number (0-9)</p>
-                            <p id="req-sym">🔴 At least 1 Symbol (@$!%*?&)</p>
-                        </div>
-
-                        <button type="submit" id="updatePassBtn"
-                            class="w-full bg-gctu-blue text-white py-3 rounded-lg text-sm font-bold hover:bg-blue-900 transition shadow-lg mt-2">
-                            Update Password
+                    <div class="flex justify-end pt-4 border-t border-gray-100">
+                        <button type="submit" id="saveProfileBtn"
+                            class="bg-gctu-blue text-white px-8 py-3 rounded-lg text-sm font-bold hover:bg-blue-900 transition shadow-lg flex items-center gap-2">
+                            <span>💾</span> Save Profile
                         </button>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
 
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 md:p-8">
+                <h3 class="text-lg font-bold text-red-600 mb-4 pb-2 border-b border-gray-100 flex items-center gap-2">
+                    <span>⭐</span> Admin Promotion Center
+                </h3>
+                <p class="text-xs text-gray-500 mb-6">Enter Index Numbers (separated by commas) to grant Admin privileges.</p>
 
+                <div class="space-y-4">
+                    <textarea id="indexList" placeholder="1703021230, 1704562737"
+                        class="w-full p-4 border border-gray-300 rounded-lg h-32 font-mono text-sm focus:ring-2 focus:ring-red-500 outline-none transition bg-gray-50"></textarea>
+
+                    <button id="promoteBtn" class="w-full bg-red-600 text-white py-4 rounded-lg font-bold hover:bg-red-700 transition shadow-lg flex items-center justify-center gap-2">
+                        <span>🚀</span> PROMOTE TO ADMIN
+                    </button>
+
+                    <div id="logs" class="p-4 bg-gray-900 text-yellow-400 font-mono text-[10px] h-32 overflow-y-auto rounded-lg shadow-inner">
+                        > System standby...
+                    </div>
+                </div>
+            </div>
 
         </div>
-
     </main>
 
     <script type="module" src="./js/modules/profile_mgr.js"></script>
@@ -248,58 +131,19 @@
         const genderSelect = document.getElementById('gender');
         const avatarImg = document.getElementById('heroAvatar');
 
-        // Echo Name Instantly
+        // Dynamic Name Header
         nameInput.addEventListener('input', (e) => {
-            heroName.innerText = e.target.value || 'Welcome, Admin';
+            heroName.innerText = e.target.value || 'Administrator';
         });
 
-        // Update Avatar Instantly
+        // Dynamic Avatar Change
         genderSelect.addEventListener('change', (e) => {
             updateAvatarDisplay(e.target.value);
         });
 
-        // Global function called by profile_mgr.js on load
         window.updateAvatarDisplay = function (gender) {
-            if (gender === 'female') {
-                avatarImg.src = '../assets/images/female.jpg';
-            } else {
-                // Default to male for 'male' or 'other'
-                avatarImg.src = '../assets/images/male.jpg';
-            }
+            avatarImg.src = gender === 'female' ? '../assets/images/female.jpg' : '../assets/images/male.jpg';
         }
-
-        // Toggle Password Visibility
-        window.toggleVisibility = function (fieldId, btn) {
-            const input = document.getElementById(fieldId);
-            const iconSvg = btn.querySelector('svg');
-
-            if (input.type === 'password') {
-                // 1. SHOW PASSWORD
-                input.type = 'text';
-
-                // Change Icon to "Eye Slash" (Meaning: Click to Hide)
-                iconSvg.innerHTML = `
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88" />
-            `;
-                // Optional: Change color to indicate "Warning/Visible"
-                btn.classList.add('text-gctu-blue');
-                btn.classList.remove('text-gray-400');
-
-            } else {
-                // 2. HIDE PASSWORD
-                input.type = 'password';
-
-                // Change Icon back to "Eye" (Meaning: Click to View)
-                iconSvg.innerHTML = `
-                <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
-                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-            `;
-                // Reset color
-                btn.classList.remove('text-gctu-blue');
-                btn.classList.add('text-gray-400');
-            }
-        };
     </script>
 </body>
-
 </html>

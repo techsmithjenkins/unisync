@@ -72,7 +72,7 @@ function setupActions() {
             text: `We will send a secure reset link to ${user.email}`,
             icon: 'question',
             showCancelButton: true,
-            confirmButtonColor: '#002147', // GCTU Blue
+            confirmButtonColor: '#002147',
             confirmButtonText: 'Send Link',
             cancelButtonColor: '#d33'
         });

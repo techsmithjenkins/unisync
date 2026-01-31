@@ -1,13 +1,22 @@
 import supabase from '../../../shared/js/supabase_client.js';
 import { authAPI } from '../../../shared/js/api/auth_api.js';
 
-const Toast = Swal.mixin({
-    toast: true,
-    position: 'top-end',
-    showConfirmButton: false,
-    timer: 3000,
-    timerProgressBar: true,
-});
+const getToast = () => {
+    const isDark = document.body.classList.contains('dark-mode');
+    return Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        background: isDark ? '#1e293b' : '#fff',
+        color: isDark ? '#f8fafc' : '#545454',
+        didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+    });
+};
 
 document.addEventListener('DOMContentLoaded', async () => {
     await loadProfileData();
@@ -44,8 +53,8 @@ async function loadProfileData() {
         const statusEl = document.getElementById('profileStatus');
         const currentStatus = student.status || 'Active';
         statusEl.innerText = currentStatus;
-        
-        statusEl.className = currentStatus === 'Active' 
+
+        statusEl.className = currentStatus === 'Active'
             ? "bg-green-50 text-green-600 text-xs font-bold px-3 py-1 rounded-full border border-green-100"
             : "bg-red-50 text-red-600 text-xs font-bold px-3 py-1 rounded-full border border-red-100";
     }
@@ -57,7 +66,7 @@ function setupActions() {
 
     changePasswordRow?.addEventListener('click', async () => {
         const { data: { user } } = await supabase.auth.getUser();
-        
+
         const result = await Swal.fire({
             title: 'Reset Password?',
             text: `We will send a secure reset link to ${user.email}`,
@@ -86,13 +95,9 @@ function setupActions() {
 
     appearanceRow?.addEventListener('click', () => {
         const isDark = document.body.classList.toggle('dark-mode');
-        const statusLabel = document.getElementById('darkModeStatus');
-        
-        if (statusLabel) {
-            statusLabel.innerText = isDark ? 'ON' : 'OFF';
-        }
+        document.getElementById('darkModeStatus').innerText = isDark ? 'ON' : 'OFF';
 
-        Toast.fire({
+        getToast().fire({
             icon: 'info',
             title: `Appearance set to ${isDark ? 'Dark' : 'Light'} Mode`
         });

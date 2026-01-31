@@ -31,9 +31,13 @@
     <main class="flex-1 max-w-6xl mx-auto w-full p-4 md:p-8">
 
         <div class="relative mb-16">
-            <div class="h-48 w-full bg-gradient-to-r from-gctu-blue to-blue-900 rounded-2xl shadow-lg relative overflow-hidden">
-                <div class="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
-                <div class="absolute bottom-4 right-6 text-white text-opacity-20 text-4xl font-bold tracking-widest pointer-events-none uppercase">
+            <div
+                class="h-48 w-full bg-gradient-to-r from-gctu-blue to-blue-900 rounded-2xl shadow-lg relative overflow-hidden">
+                <div
+                    class="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]">
+                </div>
+                <div
+                    class="absolute bottom-4 right-6 text-white text-opacity-20 text-4xl font-bold tracking-widest pointer-events-none uppercase">
                     Administrator
                 </div>
             </div>
@@ -42,12 +46,15 @@
                 <div class="relative group">
                     <img id="heroAvatar" src="../assets/images/male.jpg" alt="Avatar"
                         class="w-32 h-32 md:w-40 md:h-40 rounded-full border-[6px] border-white shadow-xl bg-white object-cover">
-                    <div class="absolute bottom-2 right-2 bg-green-500 w-5 h-5 rounded-full border-4 border-white" title="Online"></div>
+                    <div class="absolute bottom-2 right-2 bg-green-500 w-5 h-5 rounded-full border-4 border-white"
+                        title="Online"></div>
                 </div>
 
                 <div class="pb-1 mb-2">
-                    <h1 class="text-3xl md:text-4xl font-bold text-gctu-gold tracking-tight" id="heroName">Loading...</h1>
-                    <span class="inline-block bg-blue-100 text-gctu-blue text-xs font-bold px-3 py-1 rounded-full border border-blue-200 mt-1 uppercase">
+                    <h1 class="text-3xl md:text-4xl font-bold text-gctu-gold tracking-tight" id="heroName">Loading...
+                    </h1>
+                    <span
+                        class="inline-block bg-blue-100 text-gctu-blue text-xs font-bold px-3 py-1 rounded-full border border-blue-200 mt-1 uppercase">
                         Verified Access
                     </span>
                 </div>
@@ -72,7 +79,8 @@
                         <div class="grid grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Gender</label>
-                                <select id="gender" class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-gctu-blue outline-none bg-white cursor-pointer">
+                                <select id="gender"
+                                    class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-gctu-blue outline-none bg-white cursor-pointer">
                                     <option value="male">Male</option>
                                     <option value="female">Female</option>
                                 </select>
@@ -102,24 +110,51 @@
 
             <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 md:p-8">
                 <h3 class="text-lg font-bold text-red-600 mb-4 pb-2 border-b border-gray-100 flex items-center gap-2">
-                    <span>⭐</span> Admin Promotion Center
+                    <span>🛡️</span> User Access Control
                 </h3>
-                <p class="text-xs text-gray-500 mb-6">Enter Index Numbers (separated by commas) to grant Admin privileges.</p>
+                <p class="text-xs text-gray-500 mb-6">Verify and change user permissions (Admin/Student).</p>
 
                 <div class="space-y-4">
-                    <textarea id="indexList" placeholder="1703021230, 1704562737"
-                        class="w-full p-4 border border-gray-300 rounded-lg h-32 font-mono text-sm focus:ring-2 focus:ring-red-500 outline-none transition bg-gray-50"></textarea>
+                    <div class="flex gap-2">
+                        <input type="text" id="targetIndex" placeholder="Index Number (e.g. 170302123)"
+                            class="flex-1 p-3 border border-gray-300 rounded-lg font-mono text-sm focus:ring-2 focus:ring-red-500 outline-none transition bg-gray-50">
+                        <button id="checkUserBtn"
+                            class="bg-gray-800 text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-black transition">
+                            🔍 CHECK
+                        </button>
+                    </div>
 
-                    <button id="promoteBtn" class="w-full bg-red-600 text-white py-4 rounded-lg font-bold hover:bg-red-700 transition shadow-lg flex items-center justify-center gap-2">
-                        <span>🚀</span> PROMOTE TO ADMIN
+                    <div id="userStatusCard"
+                        class="hidden p-4 rounded-lg bg-blue-50 border border-blue-100 flex items-center justify-between">
+                        <div>
+                            <p id="statusName" class="font-bold text-gctu-blue text-sm">--</p>
+                            <p id="statusRole"
+                                class="text-[10px] font-black uppercase tracking-widest text-blue-400 mt-1">Role: --</p>
+                        </div>
+                        <div id="statusBadge" class="h-3 w-3 rounded-full bg-gray-300 animate-pulse"></div>
+                    </div>
+
+                    <div class="flex items-center justify-between bg-gray-50 p-3 rounded-lg border border-gray-100">
+                        <span class="text-xs font-bold text-gray-600">Action: Set Role to</span>
+                        <div class="flex bg-gray-200 rounded-md p-1">
+                            <button id="setStudentMode"
+                                class="role-toggle-btn px-4 py-1.5 rounded text-[10px] font-black transition-all bg-white text-gray-800 shadow-sm">STUDENT</button>
+                            <button id="setAdminMode"
+                                class="role-toggle-btn px-4 py-1.5 rounded text-[10px] font-black transition-all text-gray-400">ADMIN</button>
+                        </div>
+                    </div>
+
+                    <button id="executeRoleBtn"
+                        class="w-full bg-red-600 text-white py-4 rounded-lg font-bold hover:bg-red-700 transition shadow-lg flex items-center justify-center gap-2">
+                        <span id="btnIcon">🚀</span> <span id="btnText">EXECUTE CHANGE</span>
                     </button>
 
-                    <div id="logs" class="p-4 bg-gray-900 text-yellow-400 font-mono text-[10px] h-32 overflow-y-auto rounded-lg shadow-inner">
-                        > System standby...
+                    <div id="logs"
+                        class="p-4 bg-gray-900 text-yellow-400 font-mono text-[10px] h-32 overflow-y-auto rounded-lg shadow-inner">
+                        > User Management System Ready...
                     </div>
                 </div>
             </div>
-
         </div>
     </main>
 
@@ -146,4 +181,5 @@
         }
     </script>
 </body>
+
 </html>

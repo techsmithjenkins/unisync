@@ -48,7 +48,7 @@ export async function loadStudentHeader(activePage) {
     sidebar.className = "hidden md:flex flex-col w-64 bg-gctu-blue text-white h-full shadow-xl z-20 flex-shrink-0";
     sidebar.innerHTML = `
         <div class="p-6 border-b border-gray-700 flex items-center gap-3">
-            <img src="../assets/images/icons/unisync.png" alt="GCTU Logo" class="h-10 w-10 bg-white rounded-full p-1 border-2 border-gctu-gold">
+            <img src="../assets/images/icons/ceng.png" alt="GCTU Logo" class="h-10 w-10 bg-white rounded-full p-1 border-2 border-gctu-gold">
             <div>
                 <h1 class="text-lg font-bold leading-tight">Unisync</h1>
                 <p class="text-[10px] text-gctu-gold uppercase tracking-wider font-semibold">Student Portal</p>

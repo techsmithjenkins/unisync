@@ -1,5 +1,6 @@
 import supabase from '../../../shared/js/supabase_client.js';
 import { authAPI } from '../../../shared/js/api/auth_api.js';
+import { initTheme, toggleTheme } from '../../../shared/js/theme_mgr.js';
 
 const getToast = () => {
     const isDark = document.body.classList.contains('dark-mode');
@@ -19,8 +20,14 @@ const getToast = () => {
 };
 
 document.addEventListener('DOMContentLoaded', async () => {
+    initTheme();
     await loadProfileData();
     setupActions();
+
+    const statusLabel = document.getElementById('darkModeStatus');
+    if (statusLabel) {
+        statusLabel.innerText = document.body.classList.contains('dark-mode') ? 'ON' : 'OFF';
+    }
 });
 
 async function loadProfileData() {
@@ -94,8 +101,9 @@ function setupActions() {
     });
 
     appearanceRow?.addEventListener('click', () => {
-        const isDark = document.body.classList.toggle('dark-mode');
-        document.getElementById('darkModeStatus').innerText = isDark ? 'ON' : 'OFF';
+        const isDark = toggleTheme();
+        const statusLabel = document.getElementById('darkModeStatus');
+        if (statusLabel) statusLabel.innerText = isDark ? 'ON' : 'OFF';
 
         getToast().fire({
             icon: 'info',

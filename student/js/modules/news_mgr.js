@@ -1,6 +1,8 @@
 import supabase from '../../../shared/js/supabase_client.js';
+import { initTheme } from '../../../shared/js/theme_mgr.js';
 
 document.addEventListener('DOMContentLoaded', () => {
+    initTheme();
     loadNews();
 });
 

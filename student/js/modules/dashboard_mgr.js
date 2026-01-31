@@ -1,11 +1,11 @@
 import supabase from '../../../shared/js/supabase_client.js';
+import { initTheme } from '../../../shared/js/theme_mgr.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
+    initTheme();
     updateDate();
     loadWelcomeMessage();
 });
-
-// Inside student/js/modules/dashboard_mgr.js
 
 function updateDate() {
     const options = { weekday: 'short', month: 'short', day: 'numeric' };

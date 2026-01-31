@@ -32,7 +32,7 @@ export async function loadStudentHeader(activePage) {
 
     topHeader.innerHTML = `
         <div class="flex items-center gap-3">
-            <img src="../assets/images/icons/unisync.png" alt="Logo" class="h-8 w-8 bg-white rounded-full p-0.5">
+            <img src="../assets/images/icons/ceng.png" alt="Logo" class="h-8 w-8 bg-white rounded-full p-0.5">
             <div>
                 <h3 class="font-bold text-sm tracking-tight leading-none">${displayTitle}</h3>
                 <span class="text-[9px] text-gctu-gold font-bold uppercase tracking-widest">Unisync</span>

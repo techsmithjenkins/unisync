@@ -166,22 +166,35 @@
         // 1. Set Year
         document.getElementById('currentYear').textContent = new Date().getFullYear();
 
-        const forgotLink = document.querySelector('a[class*="hover:underline"]');
+        const loginForm = document.getElementById('loginForm');
+        const loginBtn = loginForm.querySelector('button');
+        const indexInput = document.getElementById('indexNumber');
+        const passwordInput = document.getElementById('password');
+        const rememberMeCheckbox = document.querySelector('input[type="checkbox"]');
+
+        const forgotLink = document.getElementById('forgotPassword');
         const modal = document.getElementById('forgotModal');
         const closeModal = document.getElementById('closeModal');
         const sendResetBtn = document.getElementById('sendResetBtn');
         const resetIndexInput = document.getElementById('resetIndex');
+
         const togglePassword = document.getElementById('togglePassword');
-        const passwordInput = document.getElementById('password');
         const eyeIcon = document.getElementById('eyeIcon');
 
+        // 2. Remember Me: Auto-fill on Page Load
+        const savedIndex = localStorage.getItem('remembered_index');
+        if (savedIndex) {
+            indexInput.value = savedIndex;
+            rememberMeCheckbox.checked = true;
+        }
+
+        // 3. UI Interactions (Modals & Toggles)
         forgotLink.onclick = (e) => { e.preventDefault(); modal.classList.remove('hidden'); };
         closeModal.onclick = () => modal.classList.add('hidden');
 
         togglePassword.addEventListener('click', () => {
             const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
             passwordInput.setAttribute('type', type);
-
             eyeIcon.classList.toggle('fa-eye');
             eyeIcon.classList.toggle('fa-eye-slash');
         });
@@ -194,27 +207,26 @@
             timerProgressBar: true
         });
 
-        // 3. Handle Reset Request
+        // 4. Handle Reset Request
         sendResetBtn.onclick = async () => {
-            const index = resetIndexInput.value;
-            if (!index) {
+            const identifier = resetIndexInput.value.trim();
+            if (!identifier) {
                 return Toast.fire({
                     icon: 'warning',
                     title: 'Missing Information',
-                    text: 'Please enter your Index Number to continue.',
-                    confirmButtonColor: '#002147'
+                    text: 'Please enter your Index Number to continue.'
                 });
             }
 
-            sendResetBtn.innerText = "FINDING ACCOUNT...";
+            sendResetBtn.innerText = "VERIFYING...";
             sendResetBtn.disabled = true;
 
-            const { email, error: findError } = await authAPI.findEmailByIndex(index);
+            const { email, error: findError } = await authAPI.findEmailByIndex(identifier);
 
             if (findError) {
                 Swal.fire({
-                    icon: 'error',
-                    title: 'Account Not Found',
+                    icon: findError.includes('Student accounts') ? 'info' : 'error',
+                    title: 'Identity Verification',
                     text: findError,
                     confirmButtonColor: '#002147'
                 });
@@ -230,7 +242,7 @@
                 Swal.fire({
                     icon: 'error',
                     title: 'Delivery Failed',
-                    text: 'We couldn’t send the email. ' + sendError.message,
+                    text: 'Could not send reset link: ' + sendError.message,
                     confirmButtonColor: '#002147'
                 });
                 sendResetBtn.innerText = "SEND RESET LINK";
@@ -238,9 +250,8 @@
             } else {
                 Toast.fire({
                     icon: 'success',
-                    title: 'Check Your Email',
-                    text: `A secure reset link has been sent to: ${email}`,
-                    confirmButtonColor: '#002147'
+                    title: 'Link Dispatched',
+                    text: `Check your email: ${email}`
                 });
                 modal.classList.add('hidden');
                 sendResetBtn.innerText = "SEND RESET LINK";
@@ -248,31 +259,32 @@
             }
         };
 
-        // 4. Handle Login
-        const loginForm = document.getElementById('loginForm');
-        const loginBtn = loginForm.querySelector('button');
-
+        // 5. Handle Login
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const originalText = loginBtn.innerText;
+            const indexValue = indexInput.value.trim();
+
             loginBtn.innerText = "VERIFYING...";
             loginBtn.disabled = true;
 
-            const result = await authAPI.login(
-                document.getElementById('indexNumber').value,
-                document.getElementById('password').value
-            );
+            const result = await authAPI.login(indexValue, passwordInput.value);
 
             if (result.error) {
                 Toast.fire({
                     icon: 'error',
                     title: 'Login Failed',
-                    text: result.error,
-                    confirmButtonColor: '#002147'
+                    text: result.error
                 });
                 loginBtn.innerText = originalText;
                 loginBtn.disabled = false;
             } else {
+                if (rememberMeCheckbox.checked) {
+                    localStorage.setItem('remembered_index', indexValue);
+                } else {
+                    localStorage.removeItem('remembered_index');
+                }
+
                 window.location.href = result.role === 'admin' ? 'admin/index.html' : 'student/index.html';
             }
         });

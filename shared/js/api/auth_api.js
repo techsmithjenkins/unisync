@@ -9,8 +9,8 @@ export const authAPI = {
      */
     login: async (identifier, password) => {
         try {
-            let email = identifier;
-            if (!identifier.includes('@')) {
+            let email = identifier.trim().toLowerCase();
+            if (!email.includes('@')) {
                 email = `${identifier}@live.gctu.edu.gh`;
             }
 
@@ -31,14 +31,12 @@ export const authAPI = {
                     .eq('id', user.id)
                     .maybeSingle();
 
-                const backupIndex = user.email.split('@')[0];
-
                 if (profile && profile.status === 'Inactive') {
                     await supabase.auth.signOut();
                     throw new Error("Access Denied: Your account is inactive.");
                 }
                 
-                localStorage.setItem('user_index', profile ? profile.index_number : backupIndex);
+                localStorage.setItem('user_index', profile ? profile.index_number : identifier);
             }
 
             localStorage.setItem('user_role', role);
@@ -59,19 +57,37 @@ export const authAPI = {
      * 2. Find Email by Index
      * Used in the Forgot Password flow to identify the target email.
      */
-    findEmailByIndex: async (indexNumber) => {
+    findEmailByIndex: async (identifier) => {
         try {
-            const { data, error } = await supabase
-                .from('profiles')
-                .select('index_number')
-                .eq('index_number', indexNumber)
-                .maybeSingle();
+            const isEmail = identifier.includes('@');
 
-            if (error) throw error;
-            if (!data) throw new Error("Index Number not found in our records.");
+            if (isEmail) {
+                const { data: profile, error } = await supabase
+                    .from('profiles')
+                    .select('role')
+                    .eq('index_number', identifier)
+                    .maybeSingle();
 
-            const studentEmail = `${data.index_number}@live.gctu.edu.gh`;
-            return { email: studentEmail, error: null };
+                if (error) throw error;
+
+                if (!profile || profile.role !== 'admin') {
+                    throw new Error("Student accounts must use their Index Number, not an email address.");
+                }
+
+                return { email: identifier, error: null };
+            } else {
+                const { data, error } = await supabase
+                    .from('profiles')
+                    .select('index_number')
+                    .eq('index_number', identifier)
+                    .maybeSingle();
+
+                if (error) throw error;
+                if (!data) throw new Error("Index Number not found in our records.");
+
+                const studentEmail = `${data.index_number}@live.gctu.edu.gh`;
+                return { email: studentEmail, error: null };
+            }
         } catch (err) {
             return { email: null, error: err.message };
         }
@@ -98,7 +114,10 @@ export const authAPI = {
      * Clears all session data and signs out of Supabase.
      */
     logout: async () => {
-        localStorage.clear(); 
+        localStorage.removeItem('user_role');
+        localStorage.removeItem('user_id');
+        localStorage.removeItem('user_index');
+
         await supabase.auth.signOut();
         window.location.href = '../index.html';
     },

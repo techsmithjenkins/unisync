@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -9,9 +10,9 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="icon" type="image/x-icon" href="../assets/images/favicon.ico">
     <script>
-        tailwind.config = { 
-            theme: { 
-                extend: { 
+        tailwind.config = {
+            theme: {
+                extend: {
                     colors: { 'gctu-blue': '#002147', 'gctu-gold': '#FFD700', success: '#5cb85c' },
                     spacing: { 'safe': 'var(--safe-area-inset)' }
                 },
@@ -23,7 +24,7 @@
                     'xl': '1280px',
                     '2xl': '1536px'
                 }
-            } 
+            }
         }
     </script>
     <style>
@@ -37,6 +38,7 @@
         }
     </style>
 </head>
+
 <body class="bg-blue-50 text-gray-800 h-screen flex flex-col">
 
     <script type="module">
@@ -45,41 +47,50 @@
     </script>
 
     <div class="flex-1 w-full mx-auto p-2 sm:p-4 flex flex-col gap-3 sm:gap-4 max-w-full lg:max-w-6xl lg:mx-auto">
-        
+
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-4 shrink-0">
             <div class="bg-white p-3 sm:p-4 rounded-lg sm:rounded-xl shadow-sm border-l-4 border-gctu-blue">
                 <div class="text-gray-400 text-xs font-bold uppercase">Total Students</div>
                 <h3 id="totalCount" class="text-xl sm:text-2xl font-bold text-gctu-blue mt-1">...</h3>
             </div>
-            
-            <div class="sm:col-span-1 lg:col-span-2 bg-white p-3 sm:p-4 rounded-lg sm:rounded-xl shadow-sm border border-gray-200 flex flex-col lg:flex-row gap-3 sm:gap-4 items-stretch lg:items-center">
-                <div id="dropZone" class="flex-1 w-full border-2 border-dashed border-gray-300 rounded-lg p-3 sm:p-4 text-center hover:bg-blue-50 hover:border-gctu-blue cursor-pointer transition flex flex-col justify-center items-center min-h-20">
+
+            <div
+                class="sm:col-span-1 lg:col-span-2 bg-white p-3 sm:p-4 rounded-lg sm:rounded-xl shadow-sm border border-gray-200 flex flex-col lg:flex-row gap-3 sm:gap-4 items-stretch lg:items-center">
+                <div id="dropZone"
+                    class="flex-1 w-full border-2 border-dashed border-gray-300 rounded-lg p-3 sm:p-4 text-center hover:bg-blue-50 hover:border-gctu-blue cursor-pointer transition flex flex-col justify-center items-center min-h-20">
                     <span class="text-2xl">📄</span>
                     <p id="fileLabel" class="text-xs text-gray-500 mt-1">Drag CSV here to Bulk Import</p>
                     <input type="file" id="csvInput" accept=".csv" class="hidden">
                 </div>
                 <div class="flex flex-col gap-2 w-full lg:w-auto">
-                    <button id="importBtn" disabled class="bg-gctu-blue text-white font-bold py-2 px-3 sm:px-4 rounded-lg opacity-50 cursor-not-allowed text-xs sm:text-sm transition shadow-sm whitespace-nowrap w-full lg:w-auto">
+                    <button id="importBtn" disabled
+                        class="bg-gctu-blue text-white font-bold py-2 px-3 sm:px-4 rounded-lg opacity-50 cursor-not-allowed text-xs sm:text-sm transition shadow-sm whitespace-nowrap w-full lg:w-auto">
                         🚀 Process Import
                     </button>
-                    <a href="#" onclick="downloadTemplate()" class="text-xs text-blue-600 hover:underline text-center">Download Template</a>
+                    <a href="#" onclick="downloadTemplate()"
+                        class="text-xs text-blue-600 hover:underline text-center">Download Template</a>
                 </div>
             </div>
         </div>
 
-        <div class="flex-1 bg-white rounded-lg sm:rounded-xl shadow-sm border border-gray-100 flex flex-col min-h-[500px] overflow-hidden mb-10">
-            
-            <div class="p-2 sm:p-4 border-b border-gray-100 flex flex-col gap-2 sm:gap-3 bg-gray-50 rounded-t-lg sm:rounded-t-xl">
+        <div
+            class="flex-1 bg-white rounded-lg sm:rounded-xl shadow-sm border border-gray-100 flex flex-col min-h-[500px] overflow-hidden mb-10">
+
+            <div
+                class="p-2 sm:p-4 border-b border-gray-100 flex flex-col gap-2 sm:gap-3 bg-gray-50 rounded-t-lg sm:rounded-t-xl">
                 <h3 class="font-bold text-base sm:text-lg text-gctu-blue">Class List</h3>
-                
+
                 <div class="flex flex-col sm:flex-row gap-2 w-full">
-                    <input type="text" id="searchInput" placeholder="🔍 Search surname or index..." class="border rounded-lg px-3 py-2 text-xs sm:text-sm focus:ring-2 focus:ring-gctu-blue outline-none flex-1 bg-white">
-                    
-                    <button id="addStudentBtn" class="bg-green-600 text-white font-bold px-3 py-2 rounded-lg text-xs sm:text-sm hover:bg-green-700 transition shadow-sm whitespace-nowrap w-full sm:w-auto">
+                    <input type="text" id="searchInput" placeholder="🔍 Search surname or index..."
+                        class="border rounded-lg px-3 py-2 text-xs sm:text-sm focus:ring-2 focus:ring-gctu-blue outline-none flex-1 bg-white">
+
+                    <button id="addStudentBtn"
+                        class="bg-green-600 text-white font-bold px-3 py-2 rounded-lg text-xs sm:text-sm hover:bg-green-700 transition shadow-sm whitespace-nowrap w-full sm:w-auto">
                         + Add New
                     </button>
 
-                    <button id="deleteAllBtn" class="bg-red-50 text-red-600 border border-red-200 font-bold px-3 py-2 rounded-lg text-xs sm:text-sm hover:bg-red-600 hover:text-white transition shadow-sm whitespace-nowrap flex items-center justify-center gap-1 w-full sm:w-auto">
+                    <button id="deleteAllBtn"
+                        class="bg-red-50 text-red-600 border border-red-200 font-bold px-3 py-2 rounded-lg text-xs sm:text-sm hover:bg-red-600 hover:text-white transition shadow-sm whitespace-nowrap flex items-center justify-center gap-1 w-full sm:w-auto">
                         🗑️ Delete All
                     </button>
                 </div>
@@ -89,47 +100,65 @@
                 <table class="w-full text-left border-collapse text-xs sm:text-sm">
                     <thead class="bg-gray-50 sticky top-0 z-10 uppercase text-gray-500 font-bold select-none">
                         <tr class="text-xs">
-                            <th onclick="sortStudents('surname')" class="p-2 sm:p-4 border-b cursor-pointer hover:bg-gray-100 group transition">Surname <span id="sort-surname" class="text-gray-300 text-xs">↕</span></th>
-                            <th onclick="sortStudents('first_name')" class="p-2 sm:p-4 border-b cursor-pointer hover:bg-gray-100 group transition hidden sm:table-cell">First Name <span id="sort-first_name" class="text-gray-300 text-xs">↕</span></th>
+                            <th onclick="sortStudents('surname')"
+                                class="p-2 sm:p-4 border-b cursor-pointer hover:bg-gray-100 group transition">Surname
+                                <span id="sort-surname" class="text-gray-300 text-xs">↕</span></th>
+                            <th onclick="sortStudents('first_name')"
+                                class="p-2 sm:p-4 border-b cursor-pointer hover:bg-gray-100 group transition hidden sm:table-cell">
+                                First Name <span id="sort-first_name" class="text-gray-300 text-xs">↕</span></th>
                             <th class="p-2 sm:p-4 border-b text-gray-400 hidden md:table-cell">Other</th>
-                            <th onclick="sortStudents('gender')" class="p-2 sm:p-4 border-b cursor-pointer hover:bg-gray-100 group transition text-center hidden lg:table-cell">Gender <span id="sort-gender" class="text-gray-300 text-xs">↕</span></th>
-                            <th onclick="sortStudents('index_number')" class="p-2 sm:p-4 border-b cursor-pointer hover:bg-gray-100 group transition">Index <span id="sort-index_number" class="text-gray-300 text-xs">↕</span></th>
-                            <th onclick="sortStudents('status')" class="p-2 sm:p-4 border-b cursor-pointer hover:bg-gray-100 group transition hidden sm:table-cell">Status <span id="sort-status" class="text-gray-300 text-xs">↕</span></th>
+                            <th onclick="sortStudents('gender')"
+                                class="p-2 sm:p-4 border-b cursor-pointer hover:bg-gray-100 group transition text-center hidden lg:table-cell">
+                                Gender <span id="sort-gender" class="text-gray-300 text-xs">↕</span></th>
+                            <th onclick="sortStudents('index_number')"
+                                class="p-2 sm:p-4 border-b cursor-pointer hover:bg-gray-100 group transition">Index
+                                <span id="sort-index_number" class="text-gray-300 text-xs">↕</span></th>
+                            <th onclick="sortStudents('status')"
+                                class="p-2 sm:p-4 border-b cursor-pointer hover:bg-gray-100 group transition hidden sm:table-cell">
+                                Status <span id="sort-status" class="text-gray-300 text-xs">↕</span></th>
                             <th class="p-2 sm:p-4 border-b text-right">Action</th>
                         </tr>
                     </thead>
                     <tbody id="studentTableBody" class="divide-y divide-gray-100">
-                        <tr><td colspan="7" class="p-4 sm:p-8 text-center text-gray-400">Loading students...</td></tr>
+                        <tr>
+                            <td colspan="7" class="p-4 sm:p-8 text-center text-gray-400">Loading students...</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
 
-    <div id="studentModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50 backdrop-blur-sm p-4 sm:p-0">
-        <div class="bg-white rounded-lg sm:rounded-xl shadow-2xl w-full max-w-lg p-4 sm:p-6 transform transition-all scale-100 max-h-screen overflow-y-auto sm:max-h-none">
+    <div id="studentModal"
+        class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50 backdrop-blur-sm p-4 sm:p-0">
+        <div
+            class="bg-white rounded-lg sm:rounded-xl shadow-2xl w-full max-w-lg p-4 sm:p-6 transform transition-all scale-100 max-h-screen overflow-y-auto sm:max-h-none">
             <h3 class="text-lg sm:text-xl font-bold text-gctu-blue mb-4">Add Single Student</h3>
-            
+
             <form id="studentForm" class="space-y-4">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                     <div>
                         <label class="block text-xs sm:text-sm font-bold text-gray-700 mb-1">Surname</label>
-                        <input type="text" id="inSurname" required class="w-full border rounded p-2 focus:ring-2 focus:ring-gctu-blue outline-none uppercase text-sm">
+                        <input type="text" id="inSurname" required
+                            class="w-full border rounded p-2 focus:ring-2 focus:ring-gctu-blue outline-none text-sm">
                     </div>
                     <div>
                         <label class="block text-xs sm:text-sm font-bold text-gray-700 mb-1">First Name</label>
-                        <input type="text" id="inFirstName" required class="w-full border rounded p-2 focus:ring-2 focus:ring-gctu-blue outline-none text-sm">
+                        <input type="text" id="inFirstName" required
+                            class="w-full border rounded p-2 focus:ring-2 focus:ring-gctu-blue outline-none text-sm">
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                     <div>
                         <label class="block text-xs sm:text-sm font-bold text-gray-700 mb-1">Other Names</label>
-                        <input type="text" id="inOtherNames" class="w-full border rounded p-2 focus:ring-2 focus:ring-gctu-blue outline-none text-sm">
+                        <input type="text" id="inOtherNames"
+                            class="w-full border rounded p-2 focus:ring-2 focus:ring-gctu-blue outline-none text-sm">
                     </div>
                     <div>
                         <label class="block text-xs sm:text-sm font-bold text-gray-700 mb-1">Gender</label>
-                        <select id="inGender" class="w-full border rounded p-2 focus:ring-2 focus:ring-gctu-blue outline-none bg-white text-sm">
+                        <select id="inGender"
+                            class="w-full border rounded p-2 focus:ring-2 focus:ring-gctu-blue outline-none bg-white text-sm">
                             <option value="M">Male</option>
                             <option value="F">Female</option>
                         </select>
@@ -138,12 +167,26 @@
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                     <div>
-                        <label class="block text-xs sm:text-sm font-bold text-gray-700 mb-1">Index Number</label>
-                        <input type="text" id="inIndexNumber" required class="w-full border rounded p-2 focus:ring-2 focus:ring-gctu-blue outline-none font-mono text-sm">
+                        <label class="block text-xs sm:text-sm font-bold text-gray-700 mb-1">Account Type</label>
+                        <select id="inRole"
+                            class="w-full border rounded p-2 focus:ring-2 focus:ring-gctu-blue outline-none bg-white text-sm">
+                            <option value="student">Student</option>
+                            <option value="admin">Admin</option>
+                        </select>
                     </div>
                     <div>
+                        <label id="identifierLabel" class="block text-xs sm:text-sm font-bold text-gray-700 mb-1">Index
+                            Number</label>
+                        <input type="text" id="inIdentifier" required
+                            class="w-full border rounded p-2 focus:ring-2 focus:ring-gctu-blue outline-none font-mono text-sm">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                    <div>
                         <label class="block text-xs sm:text-sm font-bold text-gray-700 mb-1">Status</label>
-                        <select id="inStatus" class="w-full border rounded p-2 focus:ring-2 focus:ring-gctu-blue outline-none bg-white text-sm">
+                        <select id="inStatus"
+                            class="w-full border rounded p-2 focus:ring-2 focus:ring-gctu-blue outline-none bg-white text-sm">
                             <option value="Active">Active</option>
                             <option value="Inactive">Inactive</option>
                         </select>
@@ -151,8 +194,11 @@
                 </div>
 
                 <div class="flex gap-3 pt-4">
-                    <button type="button" id="closeModalBtn" class="flex-1 bg-gray-200 text-gray-700 font-bold py-2 rounded hover:bg-gray-300 transition text-sm">Cancel</button>
-                    <button type="submit" class="flex-1 bg-gctu-blue text-white font-bold py-2 rounded hover:bg-opacity-90 transition shadow text-sm">Save Student</button>
+                    <button type="button" id="closeModalBtn"
+                        class="flex-1 bg-gray-200 text-gray-700 font-bold py-2 rounded hover:bg-gray-300 transition text-sm">Cancel</button>
+                    <button type="submit"
+                        class="flex-1 bg-gctu-blue text-white font-bold py-2 rounded hover:bg-opacity-90 transition shadow text-sm">Save
+                        Student</button>
                 </div>
             </form>
         </div>
@@ -172,4 +218,5 @@
         }
     </script>
 </body>
+
 </html>

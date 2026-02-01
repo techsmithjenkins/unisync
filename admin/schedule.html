@@ -33,15 +33,20 @@
         </div>
 
         <div class="flex gap-2 mb-4 overflow-x-auto shrink-0 pb-2">
-            <button class="day-tab bg-gctu-blue text-white font-bold px-6 py-2 rounded-lg shadow-sm whitespace-nowrap transition"
+            <button
+                class="day-tab bg-gctu-blue text-white font-bold px-6 py-2 rounded-lg shadow-sm whitespace-nowrap transition"
                 data-day="Monday">Monday</button>
-            <button class="day-tab bg-gray-200 text-gray-500 font-medium px-6 py-2 rounded-lg whitespace-nowrap hover:bg-gray-300 transition"
+            <button
+                class="day-tab bg-gray-200 text-gray-500 font-medium px-6 py-2 rounded-lg whitespace-nowrap hover:bg-gray-300 transition"
                 data-day="Tuesday">Tuesday</button>
-            <button class="day-tab bg-gray-200 text-gray-500 font-medium px-6 py-2 rounded-lg whitespace-nowrap hover:bg-gray-300 transition"
+            <button
+                class="day-tab bg-gray-200 text-gray-500 font-medium px-6 py-2 rounded-lg whitespace-nowrap hover:bg-gray-300 transition"
                 data-day="Wednesday">Wednesday</button>
-            <button class="day-tab bg-gray-200 text-gray-500 font-medium px-6 py-2 rounded-lg whitespace-nowrap hover:bg-gray-300 transition"
+            <button
+                class="day-tab bg-gray-200 text-gray-500 font-medium px-6 py-2 rounded-lg whitespace-nowrap hover:bg-gray-300 transition"
                 data-day="Thursday">Thursday</button>
-            <button class="day-tab bg-gray-200 text-gray-500 font-medium px-6 py-2 rounded-lg whitespace-nowrap hover:bg-gray-300 transition"
+            <button
+                class="day-tab bg-gray-200 text-gray-500 font-medium px-6 py-2 rounded-lg whitespace-nowrap hover:bg-gray-300 transition"
                 data-day="Friday">Friday</button>
         </div>
 
@@ -59,7 +64,7 @@
 
             <form id="classForm" class="space-y-4">
                 <input type="hidden" id="classId">
-                
+
                 <div>
                     <label class="block text-sm font-bold text-gray-700 mb-1">Course Code</label>
                     <input type="text" id="courseCode" required placeholder="e.g. CE315"
@@ -85,7 +90,7 @@
                     </div>
                 </div>
 
-                <div class="grid grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                         <label class="block text-sm font-bold text-gray-700 mb-1">Mode</label>
                         <select id="classMode"
@@ -94,11 +99,17 @@
                             <option value="Online">💻 Online</option>
                         </select>
                     </div>
-                    <div>
+                    <div id="venueContainer">
                         <label id="venueLabel" class="block text-sm font-bold text-gray-700 mb-1">Venue</label>
                         <input type="text" id="venue" required placeholder="e.g. C-Block 101"
                             class="w-full border rounded p-2 focus:ring-2 focus:ring-gctu-blue outline-none">
                     </div>
+                </div>
+
+                <div id="linkContainer" class="hidden">
+                    <label class="block text-sm font-bold text-gray-700 mb-1">Meeting Link (Zoom/Meet/Teams)</label>
+                    <input type="url" id="meetingLink" placeholder="https://zoom.us/j/..."
+                        class="w-full border rounded p-2 focus:ring-2 focus:ring-blue-500 outline-none border-blue-200 bg-blue-50 text-blue-700 font-mono text-xs">
                 </div>
 
                 <div>
@@ -111,7 +122,8 @@
                     <button type="button" id="closeModalBtn"
                         class="flex-1 bg-gray-200 text-gray-700 font-bold py-2 rounded hover:bg-gray-300 transition">Cancel</button>
                     <button type="submit"
-                        class="flex-1 bg-gctu-blue text-white font-bold py-2 rounded hover:bg-opacity-90 transition shadow">Save Class</button>
+                        class="flex-1 bg-gctu-blue text-white font-bold py-2 rounded hover:bg-opacity-90 transition shadow">Save
+                        Class</button>
                 </div>
             </form>
         </div>

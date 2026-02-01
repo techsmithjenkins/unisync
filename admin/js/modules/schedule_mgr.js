@@ -110,10 +110,30 @@ function setupModal() {
     const closeBtn = document.getElementById('closeModalBtn');
     const form = document.getElementById('classForm');
 
+    const classMode = document.getElementById('classMode');
+    const linkContainer = document.getElementById('linkContainer');
+    const venueInput = document.getElementById('venue');
+    const venueLabel = document.getElementById('venueLabel');
+
+    classMode.addEventListener('change', (e) => {
+        if (e.target.value === 'Online') {
+            linkContainer.classList.remove('hidden');
+            venueLabel.innerText = "Platform (Optional)";
+            venueInput.placeholder = "e.g. Google Meet";
+            if (!venueInput.value || venueInput.value.length < 3) venueInput.value = "ONLINE";
+        } else {
+            linkContainer.classList.add('hidden');
+            venueLabel.innerText = "Venue";
+            venueInput.placeholder = "e.g. C-Block 101";
+            if (venueInput.value === "ONLINE") venueInput.value = "";
+        }
+    });
+
     addBtn.addEventListener('click', () => {
         document.getElementById('modalTitle').innerText = `Add Class for ${currentDay}`;
         document.getElementById('classId').value = ""; 
         form.reset();
+        linkContainer.classList.add('hidden');
         modal.classList.remove('hidden');
     });
 
@@ -130,6 +150,8 @@ async function handleFormSubmit(e) {
     submitBtn.innerHTML = '⏳ Saving...';
 
     const id = document.getElementById('classId').value;
+    const mode = document.getElementById('classMode').value;
+
     const payload = {
         course_code: document.getElementById('courseCode').value.toUpperCase(),
         course_name: document.getElementById('courseName').value,
@@ -137,7 +159,9 @@ async function handleFormSubmit(e) {
         end_time: document.getElementById('endTime').value,
         venue: document.getElementById('venue').value,
         lecturer_name: document.getElementById('lecturer').value,
-        day: currentDay // SYNC FIX: Store string name ("Monday") for dashboard matching
+        day: currentDay,
+        class_mode: mode,
+        meeting_link: mode === 'Online' ? document.getElementById('meetingLink').value : null
     };
 
     try {
@@ -151,7 +175,7 @@ async function handleFormSubmit(e) {
         if (result.error) throw result.error;
 
         document.getElementById('classModal').classList.add('hidden');
-        await Modal.confirm("Success", "Schedule updated and synced with dashboard.", "OK", "green");
+        await Modal.confirm("Success", "Schedule updated. Students can now see the join link.", "OK", "green");
         scheduleManager.loadDay(currentDay);
 
     } catch (err) {
@@ -165,6 +189,8 @@ async function handleFormSubmit(e) {
 // Global Window Actions
 window.openEditModal = (jsonStr) => {
     const data = JSON.parse(decodeURIComponent(jsonStr));
+    const modal = document.getElementById('classModal');
+    
     document.getElementById('classId').value = data.id;
     document.getElementById('courseCode').value = data.course_code;
     document.getElementById('courseName').value = data.course_name;
@@ -173,8 +199,14 @@ window.openEditModal = (jsonStr) => {
     document.getElementById('venue').value = data.venue;
     document.getElementById('lecturer').value = data.lecturer_name;
 
+    const modeSelect = document.getElementById('classMode');
+    modeSelect.value = data.class_mode || 'In Person';
+    document.getElementById('meetingLink').value = data.meeting_link || '';
+
+    modeSelect.dispatchEvent(new Event('change'));
+
     document.getElementById('modalTitle').innerText = "Edit Class Entry";
-    document.getElementById('classModal').classList.remove('hidden');
+    modal.classList.remove('hidden');
 };
 
 window.deleteClass = async (id) => {

@@ -8,13 +8,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function initTimetable() {
     const tabs = document.querySelectorAll('.day-tab');
-    
-    // Auto-detect current day for initial load
+
     const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     const today = days[new Date().getDay()];
     const defaultDay = (today === 'Saturday' || today === 'Sunday') ? 'Monday' : today;
 
-    // Set initial tab styling
     updateTabUI(defaultDay);
     loadSchedule(defaultDay);
 
@@ -53,14 +51,21 @@ async function loadSchedule(day) {
             return;
         }
 
-        container.innerHTML = classes.map(cls => `
+        container.innerHTML = classes.map(cls => {
+            const isOnline = cls.class_mode === 'Online';
+            const hasLink = isOnline && cls.meeting_link;
+
+            return `
             <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex flex-col md:flex-row md:items-center justify-between gap-4 group hover:border-gctu-blue/30 transition-all">
                 <div class="flex items-center gap-4">
-                    <div class="h-12 w-12 rounded-full bg-blue-50 flex items-center justify-center text-gctu-blue font-bold text-xs shrink-0">
-                        ${cls.course_code.substring(0, 2)}
+                    <div class="h-12 w-12 rounded-full ${isOnline ? 'bg-blue-100 text-blue-700' : 'bg-blue-50 text-gctu-blue'} flex items-center justify-center font-bold text-xs shrink-0">
+                        ${isOnline ? '💻' : cls.course_code.substring(0, 2)}
                     </div>
                     <div>
-                        <h4 class="font-bold text-gctu-blue group-hover:text-blue-700 transition-colors">${cls.course_name}</h4>
+                        <div class="flex items-center gap-2">
+                            <h4 class="font-bold text-gctu-blue group-hover:text-blue-700 transition-colors">${cls.course_name}</h4>
+                            ${isOnline ? '<span class="text-[9px] font-black bg-blue-600 text-white px-1.5 py-0.5 rounded tracking-tighter">ONLINE</span>' : ''}
+                        </div>
                         <div class="flex items-center gap-3 mt-1">
                             <span class="text-xs font-mono text-gray-400 font-bold uppercase">${cls.course_code}</span>
                             <span class="text-gray-300">•</span>
@@ -69,16 +74,27 @@ async function loadSchedule(day) {
                     </div>
                 </div>
                 
-                <div class="flex items-center justify-between md:justify-end gap-6 border-t md:border-t-0 pt-3 md:pt-0">
-                    <div class="text-right">
+                <div class="flex flex-col md:flex-row items-start md:items-center justify-between md:justify-end gap-4 md:gap-6 border-t md:border-t-0 pt-3 md:pt-0">
+                    <div class="md:text-right order-2 md:order-1">
                         <span class="block text-sm font-bold text-gray-700">${cls.start_time.slice(0, 5)} - ${cls.end_time.slice(0, 5)}</span>
                         <span class="block text-[10px] text-gray-400 font-bold uppercase tracking-widest mt-0.5">📍 ${cls.venue}</span>
                     </div>
+
+                    ${hasLink ? `
+                    <a href="${cls.meeting_link}" target="_blank" 
+                        class="order-1 md:order-2 bg-gctu-blue text-white text-[10px] font-bold px-4 py-2 rounded-lg hover:bg-blue-900 transition shadow-md flex items-center gap-2">
+                        <span class="relative flex h-2 w-2">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                        </span>
+                        JOIN CLASS
+                    </a>` : ''}
                 </div>
             </div>
-        `).join('');
+        `}).join('');
 
     } catch (err) {
-        container.innerHTML = '<p class="text-red-500 text-center">Failed to load schedule.</p>';
+        console.error("Timetable Load Error:", err);
+        container.innerHTML = '<p class="text-red-500 text-center py-10">Failed to load schedule. Please try again.</p>';
     }
 }

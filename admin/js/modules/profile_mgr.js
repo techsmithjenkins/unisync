@@ -60,21 +60,40 @@ function setupProfileForm() {
         const fullName = document.getElementById('fullName').value.trim();
         const phone = document.getElementById('phone').value.trim();
         const gender = document.getElementById('gender').value;
+        const newEmail = document.getElementById('adminEmail').value.trim().toLowerCase();
 
         const originalText = btn.innerHTML;
         btn.innerHTML = `<span>Saving...</span>`;
         btn.disabled = true;
 
         try {
-            const { error } = await supabase.auth.updateUser({
-                data: {
-                    full_name: fullName,
-                    phone: phone,
-                    gender: gender
-                }
-            });
+            const { data: { user } } = await supabase.auth.getUser();
 
-            if (error) throw error;
+            const { error: authError } = await adminSupabase.auth.admin.updateUserById(
+                user.id,
+                { 
+                    email: newEmail,
+                    email_confirm: true,
+                    user_metadata: {
+                        full_name: fullName,
+                        phone: phone,
+                        gender: gender
+                    }
+                }
+            );
+
+            if (authError) throw authError;
+            const { error: dbError } = await supabase
+                .from('profiles')
+                .update({ 
+                    full_name: fullName,
+                    gender: gender,
+                    index_number: newEmail 
+                })
+                .eq('id', user.id);
+
+            if (dbError) throw dbError;
+
             const heroName = document.getElementById('heroName');
             if (heroName) heroName.innerText = fullName || 'Admin User';
 

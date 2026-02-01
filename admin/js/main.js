@@ -63,10 +63,14 @@ async function loadClassStats() {
 
 // --- SECTION 3: STUDENT STATS (REALTIME) ---
 async function initStudentRealtimeStats() {
-    // A. Fetch the Total Count first (Snapshot)
     const { count, error } = await supabase
         .from('profiles')
-        .select('*', { count: 'exact', head: true });
+        .select('*', { count: 'exact', head: true })
+        .eq('role', 'student');
+
+    if (error) {
+        console.error("Error fetching student count:", error);
+    }
 
     let totalStudents = count || 0;
     
@@ -87,12 +91,13 @@ async function initStudentRealtimeStats() {
             const onlineIds = new Set();
             for (const id in newState) {
                 const users = newState[id];
-                users.forEach(u => onlineIds.add(u.user));
+                users.forEach(u => {
+                    if (u.user) onlineIds.add(u.user.toString());
+                });
             }
 
             const onlineCount = onlineIds.size;
-            // Calculate Offline (Total - Online)
-            // Ensure we don't show negative numbers if total count is slightly delayed
+
             const offlineCount = Math.max(0, totalStudents - onlineCount);
 
             // Update the new HTML badges

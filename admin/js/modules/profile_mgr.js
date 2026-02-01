@@ -3,11 +3,10 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 import supabase from '../../../shared/js/supabase_client.js';
 import { Modal } from '../components/modal_system.js';
 
-// Admin client with Service Role Key for managing users
 const adminSupabase = createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_SERVICE_KEY);
 
-let selectedTargetRole = 'student'; // Default toggle state
-let targetUserId = null; // Stored after "Check"
+let selectedTargetRole = 'student';
+let targetUserId = null;
 
 document.addEventListener('DOMContentLoaded', () => {
     loadProfileData();
@@ -212,14 +211,12 @@ function setupExecutionBtn() {
         btn.innerText = "Syncing with Server...";
 
         try {
-            // 1. Update Auth Metadata via Admin API
             const { error: authErr } = await adminSupabase.auth.admin.updateUserById(
                 targetUserId,
                 { user_metadata: { role: selectedTargetRole } }
             );
             if (authErr) throw authErr;
 
-            // 2. Update Public Profiles Table
             const { error: dbErr } = await adminSupabase
                 .from('profiles')
                 .update({ role: selectedTargetRole })
@@ -229,7 +226,6 @@ function setupExecutionBtn() {
             log(`SUCCESS: Role for User ID ${targetUserId.substring(0, 8)}... set to ${selectedTargetRole}.`);
             await Modal.confirm("Success", `Account access updated to ${selectedTargetRole}.`, "Great", "green");
 
-            // Reset state
             document.getElementById('userStatusCard').classList.add('hidden');
             document.getElementById('targetIndex').value = "";
             targetUserId = null;
@@ -244,7 +240,6 @@ function setupExecutionBtn() {
     };
 }
 
-// --- LOGGING HELPER ---
 function log(msg, isError = false) {
     const logBox = document.getElementById('logs');
     if (!logBox) return;
